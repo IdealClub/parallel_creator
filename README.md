@@ -1,0 +1,1 @@
+Create pseudo sentence pairs from comparable Wikipedia articles.
