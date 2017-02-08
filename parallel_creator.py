@@ -71,7 +71,8 @@ def read_parallel(lang1, lang2, ids, art_dir):
     """
     
     try:
-        os.chdir(os.path.abspath(art_dir))
+	abs_art_dir = os.path.abspath(art_dir)
+        os.chdir(abs_art_dir)
     except:
         sys.stderr.write("Path to article directories does not exist.")
         exit(1)   
@@ -89,7 +90,7 @@ def read_parallel(lang1, lang2, ids, art_dir):
         ## Get article IDs for language pair
         lang_lines = dict()
         for lang in [lang1, lang2]:
-            os.chdir(os.path.abspath(art_dir))
+	    os.chdir(abs_art_dir)
             try:
                 field_no = langmap[lang] * 2
             except:
@@ -99,7 +100,7 @@ def read_parallel(lang1, lang2, ids, art_dir):
             try:
                 os.chdir(lang+".0/plain/"+lang)
             except:
-                sys.stderr.write("Language directory does not exist.")
+                sys.stderr.write("Language directory does not exist.\n")
                 exit(1)
             ## Figure out base directory
             os.chdir(str(int(int(id_no)//1e+5)))
@@ -108,13 +109,13 @@ def read_parallel(lang1, lang2, ids, art_dir):
                 lang_lines[lang] = source.readlines()
         
         ## Write sentence combinations to parallel files
-        os.chdir(os.path.abspath(art_dir))
+        os.chdir(abs_art_dir)
         write_parallel(lang_lines)
 
 if __name__ == "__main__":
     
     if len(sys.argv) != 3:
-        sys.stderr.write("Usage: python parallel_creator.py <mathced IDs file> <path to article directories>")
+        sys.stderr.write("Usage: python parallel_creator.py <mathced IDs file> <path to article directories>\n")
         exit(1)
         
     ## Read file of matching IDs
