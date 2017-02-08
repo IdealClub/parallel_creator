@@ -42,8 +42,8 @@ def write_parallel(lang_lines):
     lang2_nos = []
     
     lang1, lang2 = lang_lines.keys()
-    for i, line1 in enumerate(lang_lines[lang1]:)
-        for j, line2 in enumerate(lang_lines[lang2]:)
+    for i, line1 in enumerate(lang_lines[lang1]):
+        for j, line2 in enumerate(lang_lines[lang2]):
             lang1_lines.append(line1)
             lang2_lines.append(line2)
             lang1_nos.append(str(i))
