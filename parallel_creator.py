@@ -41,7 +41,12 @@ def write_parallel(lang_lines):
     lang1_nos = []
     lang2_nos = []
     
-    lang1, lang2 = lang_lines.keys()
+    try:
+        lang1, lang2 = lang_lines.keys()
+    except:
+        sys.stderr.write("Article does not exist for both languages, skipping...\n")
+        return
+    
     for i, line1 in enumerate(lang_lines[lang1]):
         for j, line2 in enumerate(lang_lines[lang2]):
             lang1_lines.append(line1)
@@ -71,7 +76,7 @@ def read_parallel(lang1, lang2, ids, art_dir):
     """
     
     try:
-	abs_art_dir = os.path.abspath(art_dir)
+        abs_art_dir = os.path.abspath(art_dir)
         os.chdir(abs_art_dir)
     except:
         sys.stderr.write("Path to article directories does not exist.")
@@ -90,7 +95,7 @@ def read_parallel(lang1, lang2, ids, art_dir):
         ## Get article IDs for language pair
         lang_lines = dict()
         for lang in [lang1, lang2]:
-	    os.chdir(abs_art_dir)
+            os.chdir(abs_art_dir)
             try:
                 field_no = langmap[lang] * 2
             except:
@@ -105,8 +110,12 @@ def read_parallel(lang1, lang2, ids, art_dir):
             ## Figure out base directory
             os.chdir(str(int(int(id_no)//1e+5)))
             ## Read corresponding article
-            with open(str(id_no)+"."+lang+".txt") as source:
-                lang_lines[lang] = source.readlines()
+            try:
+                with open(str(id_no)+"."+lang+".txt") as source:
+                    lang_lines[lang] = source.readlines()
+            except:
+                sys.stderr.write("File "+str(id_no)+"."+lang+".txt not found, skipping article pair...\n")
+                break
         
         ## Write sentence combinations to parallel files
         os.chdir(abs_art_dir)
