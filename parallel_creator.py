@@ -53,19 +53,19 @@ def write_parallel(lang_lines):
     
     for i, line1 in enumerate(lang_lines[lang1]):
         for j, line2 in enumerate(lang_lines[lang2]):
-            lang1_lines.append(line1)
-            lang2_lines.append(line2)
+            lang1_lines.append(line1.strip())
+            lang2_lines.append(line2.strip())
             lang1_nos.append(str(i))
             lang2_nos.append(str(j))
             
     with open(lang1+"-"+lang2+"."+lang1, "a+") as target:
-        target.write(''.join(lang1_lines))
+        target.write('\n'.join(lang1_lines))
     with open(lang1+"-"+lang2+"."+lang2, "a+") as target:
-        target.write(''.join(lang2_lines))
+        target.write('\n'.join(lang2_lines))
     with open(lang1+"-"+lang2+"."+lang1+".no", "a+") as target:
-        target.write(''.join(lang1_nos))
+        target.write('\n'.join(lang1_nos))
     with open(lang1+"-"+lang2+"."+lang2+".no", "a+") as target:
-        target.write(''.join(lang2_nos))    
+        target.write('\n'.join(lang2_nos))    
         
     
 def read_parallel(lang1, lang2, ids, art_dir):
