@@ -9,6 +9,7 @@ Create pseudo sentence pairs from comparable Wikipedia articles.
 
 import sys
 import os
+import itertools
 
 ## dictionary mapping language IDs to field numbers in matching IDs file
 langmap = {"en":0, "de":1, "es":2, "fr":3}
@@ -86,6 +87,8 @@ def read_parallel(lang1, lang2, ids, art_dir):
     paired = 0
     skipped =0
     
+    start_wd = os.getcwd()
+    
     try:
         abs_art_dir = os.path.abspath(art_dir)
         os.chdir(abs_art_dir)
@@ -138,9 +141,12 @@ def read_parallel(lang1, lang2, ids, art_dir):
         except ContinueI:
             continue
         
-    sys.stdout.write("Finished.\n")
+    sys.stdout.write("Finished for language pair "+lang1+"->"+lang2+".\n")
     sys.stdout.write("Paired "+str(paired)+" articles.\n")
     sys.stdout.write("Skipped "+str(skipped)+" article pairs.\n")
+    
+    ## Get back to scripts directory for next language pair
+    os.chdir(start_wd)
 
 if __name__ == "__main__":
     
@@ -155,8 +161,10 @@ if __name__ == "__main__":
         sys.stderr.write("File not found.")
         exit(1)
         
-    ## Create pseudo-parallel corpora for de->en, es->en, fr->en
-    for lang in ["de", "es", "fr"]:
-        read_parallel(lang, "en", lines, sys.argv[2])
+    ## Create pseudo-parallel corpora for all language pairs
+    combos = itertools.combinations(["de", "en", "es", "fr"], 2)
+    
+    for lang_pair in combos:
+        read_parallel(lang_pair[0], lang_pair[1], lines, sys.argv[2])
         
     
