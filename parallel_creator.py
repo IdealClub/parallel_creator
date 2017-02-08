@@ -13,6 +13,10 @@ import os
 ## dictionary mapping language IDs to field numbers in matching IDs file
 langmap = {"en":0, "de":1, "es":2, "fr":3}
 
+## to enable skipping to next iteration in outer loop when file not found
+class ContinueI(Exception):
+    pass
+
 
 def read_file(filename):
     """Reads file.
@@ -73,7 +77,14 @@ def read_parallel(lang1, lang2, ids, art_dir):
         ids: lines of the matching IDs file
         art_dir: path of article directories
     
+    Raises:
+        ContinueI special error when a certain file is not found. This is only
+        used for skipping to the next line in the matched IDs file
     """
+    
+    ## For stats
+    paired = 0
+    skipped =0
     
     try:
         abs_art_dir = os.path.abspath(art_dir)
@@ -92,34 +103,44 @@ def read_parallel(lang1, lang2, ids, art_dir):
         pass
     
     for line in lines:
-        ## Get article IDs for language pair
-        lang_lines = dict()
-        for lang in [lang1, lang2]:
+        try:
+            ## Get article IDs for language pair
+            lang_lines = dict()
+            for lang in [lang1, lang2]:
+                os.chdir(abs_art_dir)
+                try:
+                    field_no = langmap[lang] * 2
+                except:
+                    sys.stderr.write("Unknown language.")
+                    exit(1)
+                id_no = line.strip().split()[field_no]
+                try:
+                    os.chdir(lang+".0/plain/"+lang)
+                except:
+                    sys.stderr.write("Language directory does not exist.\n")
+                    exit(1)
+                ## Figure out base directory
+                os.chdir(str(int(int(id_no)//1e+5)))
+                ## Read corresponding article
+                try:
+                    with open(str(id_no)+"."+lang+".txt") as source:
+                        lang_lines[lang] = source.readlines()
+                except:
+                    sys.stderr.write("File "+str(id_no)+"."+lang+".txt not found, skipping article pair...\n")
+                    skipped += 1
+                    raise ContinueI
+            
+            ## Write sentence combinations to parallel files
             os.chdir(abs_art_dir)
-            try:
-                field_no = langmap[lang] * 2
-            except:
-                sys.stderr.write("Unknown language.")
-                exit(1)
-            id_no = line.strip().split()[field_no]
-            try:
-                os.chdir(lang+".0/plain/"+lang)
-            except:
-                sys.stderr.write("Language directory does not exist.\n")
-                exit(1)
-            ## Figure out base directory
-            os.chdir(str(int(int(id_no)//1e+5)))
-            ## Read corresponding article
-            try:
-                with open(str(id_no)+"."+lang+".txt") as source:
-                    lang_lines[lang] = source.readlines()
-            except:
-                sys.stderr.write("File "+str(id_no)+"."+lang+".txt not found, skipping article pair...\n")
-                break
+            write_parallel(lang_lines)
+            paired += 1
         
-        ## Write sentence combinations to parallel files
-        os.chdir(abs_art_dir)
-        write_parallel(lang_lines)
+        except ContinueI:
+            continue
+        
+    sys.stdout.write("Finished.\n")
+    sys.stdout.write("Paired "+str(paired)+" articles.\n")
+    sys.stdout.write("Skipped "+str(skipped)+" article pairs.\n")
 
 if __name__ == "__main__":
     
