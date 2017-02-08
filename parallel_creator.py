@@ -59,13 +59,13 @@ def write_parallel(lang_lines):
             lang2_nos.append(str(j))
             
     with open(lang1+"-"+lang2+"."+lang1, "a+") as target:
-        target.write('\n'.join(lang1_lines))
+        target.write(''.join(lang1_lines))
     with open(lang1+"-"+lang2+"."+lang2, "a+") as target:
-        target.write('\n'.join(lang2_lines))
+        target.write(''.join(lang2_lines))
     with open(lang1+"-"+lang2+"."+lang1+".no", "a+") as target:
-        target.write('\n'.join(lang1_nos))
+        target.write(''.join(lang1_nos))
     with open(lang1+"-"+lang2+"."+lang2+".no", "a+") as target:
-        target.write('\n'.join(lang2_nos))    
+        target.write(''.join(lang2_nos))    
         
     
 def read_parallel(lang1, lang2, ids, art_dir):
