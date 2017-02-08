@@ -36,7 +36,28 @@ def write_parallel(lang_lines):
     
     """
     
-    pass
+    lang1_lines = []
+    lang2_lines = []
+    lang1_nos = []
+    lang2_nos = []
+    
+    lang1, lang2 = lang_lines.keys()
+    for i, line1 in enumerate(lang_lines[lang1]:)
+        for j, line2 in enumerate(lang_lines[lang2]:)
+            lang1_lines.append(line1)
+            lang2_lines.append(line2)
+            lang1_nos.append(str(i))
+            lang2_nos.append(str(j))
+            
+    with open(lang1+"-"+lang2+"."+lang1, "a+") as target:
+        target.write('\n'.join(lang1_lines))
+    with open(lang1+"-"+lang2+"."+lang2, "a+") as target:
+        target.write('\n'.join(lang2_lines))
+    with open(lang1+"-"+lang2+"."+lang1+".no", "a+") as target:
+        target.write('\n'.join(lang1_nos))
+    with open(lang1+"-"+lang2+"."+lang2+".no", "a+") as target:
+        target.write('\n'.join(lang2_nos))    
+        
     
 def read_parallel(lang1, lang2, ids, art_dir):
     """Reads comparable parallel Wikipedia articles for a given language pair.
@@ -53,8 +74,17 @@ def read_parallel(lang1, lang2, ids, art_dir):
         os.chdir(os.path.abspath(art_dir))
     except:
         sys.stderr.write("Path to article directories does not exist.")
-        exit(1)
-
+        exit(1)   
+        
+    with open(lang1+"-"+lang2+"."+lang1, "w"):
+        pass
+    with open(lang1+"-"+lang2+"."+lang2, "w"):
+        pass
+    with open(lang1+"-"+lang2+"."+lang1+".no", "w"):
+        pass
+    with open(lang1+"-"+lang2+"."+lang2+".no", "w"):
+        pass
+    
     for line in lines:
         ## Get article IDs for language pair
         lang_lines = dict()
