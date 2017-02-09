@@ -34,7 +34,7 @@ for i, line_1 in enumerate(lines_1):
         zeros_passed = True
         
 ## last block
-count_1 += int(lines_1[i].strip()) + 1
+count_1 += int(lines_1[len(lines_1)-1].strip()) + 1
 max_2 = 0
 for line_2 in lines_2[last_j:]:
     if int(line_2.strip()) == 0 and max_2 != 0:
