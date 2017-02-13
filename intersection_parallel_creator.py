@@ -158,9 +158,9 @@ if __name__ == "__main__":
     except:
         sys.stderr.write("File not found.")
         exit(1)
-    
-    lang1 = sys.argv[1].split('.')[0]
-    lang2 = sys.argv[1].split('.')[2]
+
+    lang1 = sys.argv[1].split('/')[-1].split('.')[0]
+    lang2 = sys.argv[1].split('/')[-1].split('.')[2]
     
     read_parallel(lang1, lang2, lines, sys.argv[2])
         
