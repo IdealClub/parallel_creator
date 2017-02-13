@@ -14,6 +14,8 @@ import os
 class ContinueI(Exception):
     pass
 
+## dictionary mapping language IDs to field numbers in matching IDs file
+langmap = {"en":0, "de":1, "es":2, "fr":3}
 
 def read_file(filename):
     """Reads file.
@@ -105,12 +107,15 @@ def read_parallel(lang1, lang2, ids, art_dir):
         try:
             ## Get article IDs for language pair
             lang_lines = dict()
-            i = -1
             for lang in [lang1, lang2]:
-                i += 1
                 os.chdir(abs_art_dir)
                 try:
-                    field_no = i * 2
+                    for l in [lang1, lang2]:
+                        if l != lang:
+                            if langmap[lang] < langmap[l]:
+                                field_no = 0
+                            else:
+                                field_no = 2
                 except:
                     sys.stderr.write("Unknown language.")
                     exit(1)
