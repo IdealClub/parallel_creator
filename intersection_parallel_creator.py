@@ -15,7 +15,7 @@ class ContinueI(Exception):
     pass
 
 ## dictionary mapping language IDs to field numbers in matching IDs file
-langmap = {"en":0, "de":1, "es":2, "fr":3}
+langmap = {"en":0, "de":3, "es":1, "fr":2}
 
 def read_file(filename):
     """Reads file.
