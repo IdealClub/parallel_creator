@@ -165,7 +165,7 @@ if __name__ == "__main__":
         exit(1)
 
     lang1 = sys.argv[1].split('/')[-1].split('.')[0]
-    lang2 = sys.argv[1].split('/')[-1].split('.')[2]
+    lang2 = sys.argv[1].split('/')[-1].split('.')[1]
     
     read_parallel(lang1, lang2, lines, sys.argv[2])
         
