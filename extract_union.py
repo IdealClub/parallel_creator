@@ -48,11 +48,11 @@ def write_parallel(lang_lines):
         return
     
     with open(lang1+"-"+lang2+"."+lang1, "a+") as target:
-        target.write(lang_lines[lang1])
+        target.write("".join(lang_lines[lang1]))
     with open(lang1+"-"+lang2+"."+lang2, "a+") as target:
-        target.write(lang_lines[lang2])
+        target.write("".join(lang_lines[lang2]))
     with open(lang1+"-"+lang2+".no", "a+") as target:
-        target.write(str(len(lang_lines[lang1]))+'\t'+str(len(lang_lines[lang2])))
+        target.write(str(len(lang_lines[lang1]))+'\t'+str(len(lang_lines[lang2]))+' \n')
    
         
     
