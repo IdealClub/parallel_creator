@@ -40,33 +40,20 @@ def write_parallel(lang_lines):
                     lines as values
     
     """
-    
-    lang1_lines = []
-    lang2_lines = []
-    lang1_nos = []
-    lang2_nos = []
-    
+      
     try:
         lang1, lang2 = lang_lines.keys()
     except:
         sys.stderr.write("Article does not exist for both languages, skipping...\n")
         return
     
-    for i, line1 in enumerate(lang_lines[lang1]):
-        for j, line2 in enumerate(lang_lines[lang2]):
-            lang1_lines.append(line1.strip())
-            lang2_lines.append(line2.strip())
-            lang1_nos.append(str(i))
-            lang2_nos.append(str(j))
-            
     with open(lang1+"-"+lang2+"."+lang1, "a+") as target:
-        target.write('\n'.join(lang1_lines))
+        target.write(lang_lines[lang1])
     with open(lang1+"-"+lang2+"."+lang2, "a+") as target:
-        target.write('\n'.join(lang2_lines))
-    with open(lang1+"-"+lang2+"."+lang1+".no", "a+") as target:
-        target.write('\n'.join(lang1_nos))
-    with open(lang1+"-"+lang2+"."+lang2+".no", "a+") as target:
-        target.write('\n'.join(lang2_nos))    
+        target.write(lang_lines[lang2])
+    with open(lang1+"-"+lang2+".no", "a+") as target:
+        target.write(str(len(lang_lines[lang1]))+'\t'+str(len(lang_lines[lang2])))
+   
         
     
 def read_parallel(lang1, lang2, ids, art_dir):
@@ -100,11 +87,9 @@ def read_parallel(lang1, lang2, ids, art_dir):
         pass
     with open(lang1+"-"+lang2+"."+lang2, "w"):
         pass
-    with open(lang1+"-"+lang2+"."+lang1+".no", "w"):
+    with open(lang1+"-"+lang2+".no", "w"):
         pass
-    with open(lang1+"-"+lang2+"."+lang2+".no", "w"):
-        pass
-    
+
     for line in lines:
         try:
             ## Get article IDs for language pair
