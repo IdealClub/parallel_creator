@@ -29,8 +29,8 @@ target_start = 0
 for num in nos:
     source_aligned = []
     target_aligned = []
-    source_nos = int(num.strip.split()[0])
-    target_nos = int(num.strip.split()[1])
+    source_nos = int(num.strip().split()[0])
+    target_nos = int(num.strip().split()[1])
     for source in sources[source_start:source_start+source_nos]:
         for i in range(target_start, target_start+target_nos):
             source_aligned.append(source)
