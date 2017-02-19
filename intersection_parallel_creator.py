@@ -112,7 +112,10 @@ def read_parallel(lang1, lang2, ids, art_dir):
                     sys.stderr.write("Language directory does not exist.\n")
                     exit(1)
                 ## Figure out base directory
-                os.chdir(str(int(int(id_no)//1e+5)))
+                try:
+			os.chdir(str(int(int(id_no)//1e+5)))
+		except:
+			raise ContinueI
                 ## Read corresponding article
                 try:
                     with open(str(id_no)+"."+lang+".txt") as source:
