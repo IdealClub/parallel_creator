@@ -4,7 +4,7 @@
 ## Usage: filter_union.sh <file1> <file2> <outfile>
 
 while read line; do
-	title=`echo $line | cut -f2 -d$'\t'`
+	title=`echo $line | cut -f2 -d' '`
 	match=`cat $2 | grep "$title"`
 	if [[ -z $match ]]; then
 		echo $line >> $3
