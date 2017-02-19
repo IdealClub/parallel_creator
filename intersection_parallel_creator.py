@@ -84,9 +84,7 @@ def read_parallel(lang1, lang2, ids, art_dir):
         pass
     with open(lang1+"-"+lang2+"."+lang2, "w"):
         pass
-    with open(lang1+"-"+lang2+"."+lang1+".no", "w"):
-        pass
-    with open(lang1+"-"+lang2+"."+lang2+".no", "w"):
+    with open(lang1+"-"+lang2+".no", "w"):
         pass
     
     for line in lines:
