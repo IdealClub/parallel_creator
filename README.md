@@ -7,6 +7,6 @@ Create pseudo sentence pairs from comparable Wikipedia articles.
 3. Create pseudo-parallel corpora from paired union: `python multiply_sentences.py <source> <target> <sentence counts>`
 
 4. Create union of health and psychology article list discarding those that appear in both domains and that already had been extracted from the union: 
-`./filter_union.sh <health> <union> <out>` followed by `./filter_union.sh <psychology> <health> <out>` for all language pairs
+`./filter_union.sh <health> <union> <out>` followed by `./filter_union.sh <psychology> <health> <out>` and  `./filter_union.sh <out> <union> <final out>` for all language pairs
 
 5. repeat steps 1-3 for healt-union filtered intersection
