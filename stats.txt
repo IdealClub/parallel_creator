@@ -1,0 +1,34 @@
+German-English
+German: 3405225 417759 3822984
+English: 5518323 545541 600724
+Articles: 78616 13762 92378
+Corpus size: 447608730 23278964
+
+German-Spanish
+German: 3424694 42700
+Spanish: 2607801 32358
+Articles: 78945 1438
+
+English-Spanish
+English: 5513788 353777 5867565
+Spanish: 2587417 206759 2794176
+Articles: 78521 8785 87306
+Corpus size: 345891256 15212350
+
+French-German
+French: 2875103 59356 
+German: 3426254 86902
+Articles: 78924 2443
+
+French-English
+French: 2854785 247749
+English: 5514801 471594
+Articles: 78484 11076
+Corpus size: 396722717 17029513
+
+French-Spanish
+French: 2872734 34439
+Spanish: 2605718 38343
+Articles: 78864 1520
+
+
