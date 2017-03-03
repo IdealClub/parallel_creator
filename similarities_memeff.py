@@ -12,8 +12,6 @@ from collections import defaultdict as ddict
 import math
 import unicodedata
 import string
-import numpy as np
-import pandas as pd
 
 def read_lfs(infile):
     
@@ -95,8 +93,8 @@ def context_vector(infile1, infile2, context_vectors, outfile):
             
 def calculate(infile1, infile2, sdict, n=2):
 
-    with open(infile1+'.fea','w'):
-        pass
+    with open(infile1+'.fea','w') as target:
+        target.write(',2-gram-cos,3-gram-cos,4-gram-cos,5-gram-cos,chars-1,chars-2,cognate-cos,length-factor,tokens-1,tokens-2\n')
     
     
 #    cognate_cosine_sims = []
@@ -107,7 +105,7 @@ def calculate(infile1, infile2, sdict, n=2):
     lang1 = infile1.split('.')[-2]
     lang2 = infile2.split('.')[-2]
     
-    first = True
+    i = 0
     with open(infile1, 'r') as source1, open(infile2, 'r') as source2:
         while True:
             try:
@@ -120,27 +118,11 @@ def calculate(infile1, infile2, sdict, n=2):
                 lfs = lf(line1, line2, lang1, lang2, sdict)
                 tokens = (len(line1.split()), len(line2.split()))
                 chars=(sum([len(word) for word in line1.split()]), sum([len(word) for word in line2.split()]))
-            
-                df = pd.DataFrame({'2-gram-cos' : [ngram_cosine_sims[2]],
-                       '3-gram-cos' : [ngram_cosine_sims[3]],
-                       '4-gram-cos' : [ngram_cosine_sims[4]],
-                       '5-gram-cos' : [ngram_cosine_sims[5]],
-                       'cognate-cos': [cognate_cosine_sims],
-                       'length-factor' : [lfs], 
-                       'tokens-1' : [tokens[0]],    
-                       'tokens-2' : [tokens[1]],
-                       'chars-1' : [chars[0]],  
-                       'chars-2' : [chars[1]]
-                       }) 
-    
-                if first:
-                    with open(infile1+'.fea','a') as target:
-                        df.to_csv(target, header=True)
-                    first=False
-                else:
-                    with open(infile1+'.fea','a') as target:
-                        df.to_csv(target, header=False)
+
+                with open(infile1+'.fea','a') as target:
+                    target.write(','.join([str(i),str(ngram_cosine_sims[2]),str(ngram_cosine_sims[3]),str(ngram_cosine_sims[4]),str(ngram_cosine_sims[5]),str(chars[0]),str(chars[1]),str(cognate_cosine_sims), str(lfs), str(tokens[0]), str(tokens[1])])+'\n')
                 
+                i += 1
             except StopIteration:
                 break
             
