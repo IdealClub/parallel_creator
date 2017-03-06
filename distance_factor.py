@@ -14,8 +14,8 @@ with open(sys.argv[1], 'r') as source:
     
 distances = []
 for line in lines:
-    num_lines_source = line.strip().split()[0]
-    num_lines_target = line.strip().split()[1]
+    num_lines_source = int(line.strip().split()[0])
+    num_lines_target = int(line.strip().split()[1])
     
     ind = 0
     for i in range(0, num_lines_source):
