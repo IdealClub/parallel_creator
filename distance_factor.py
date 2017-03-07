@@ -7,7 +7,7 @@ Created on Mon Mar  6 10:26:07 2017
 
 import sys
 
-with open(sys.argv[1]+'.dist', 'a+') as target:
+with open(sys.argv[1]+'.dist', 'w') as target:
     target.write(",dist\n")
 with open(sys.argv[1], 'r') as source:
     lines = source.readlines()
