@@ -31,8 +31,8 @@ for line in lines_gold:
     
 for key, value in matching.items():   
     with open(sys.argv[1]+'.train', 'a+') as target1, open(sys.argv[2]+'.train', 'a+') as target2:
-        target1.write(lines1[key].split()[1]+'\n')
-        target2.write(lines2[value].split()[1]+'\n')
+        target1.write(' '.join(lines1[key].split()[1:])+'\n')
+        target2.write(' '.join(lines2[value].split()[1:])+'\n')
 
 for i in range(0, len(lines_gold)):
     
@@ -43,7 +43,7 @@ for i in range(0, len(lines_gold)):
         index2 = np.random.randint(0, len(lines2))
     
     with open(sys.argv[1]+'.train', 'a+') as target1, open(sys.argv[2]+'.train', 'a+') as target2:
-        target1.write(lines1[index1].split()[1]+'\n')
-        target2.write(lines2[index2].split()[1]+'\n')
+        target1.write(' '.join(lines1[index1].split()[1:])+'\n')
+        target2.write(' '-join(lines2[index2].split()[1:])+'\n')
     
     
