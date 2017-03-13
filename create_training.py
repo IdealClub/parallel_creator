@@ -7,6 +7,7 @@ Created on Mon Mar 13 09:57:48 2017
 
 import sys
 import numpy as np
+from collections import defaultdict as ddict
 
 ## Convert string codes to line nos
 def code2index(code):
@@ -21,7 +22,7 @@ with open(sys.argv[1], 'r') as source1, open(sys.argv[2], 'r') as source2, open(
     lines_gold = source3.readlines()
 
 ## Create matching dictionary    
-matching = {}
+matching = ddict(lambda: ddict(lambda: None))
 for line in lines_gold:
     [code1, code2] = line.strip().split()
     index1 = code2index(code1)
