@@ -44,6 +44,6 @@ for i in range(0, len(lines_gold)):
     
     with open(sys.argv[1]+'.train', 'a+') as target1, open(sys.argv[2]+'.train', 'a+') as target2:
         target1.write(' '.join(lines1[index1].split()[1:])+'\n')
-        target2.write(' '-join(lines2[index2].split()[1:])+'\n')
+        target2.write(' '.join(lines2[index2].split()[1:])+'\n')
     
     
