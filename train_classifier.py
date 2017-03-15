@@ -24,7 +24,7 @@ def train_and_xval(df, a="svm"):
     if a == "gb":
         alg = ensemble.GradientBoostingClassifier()
     else:
-        alg = svm.SVC()
+        alg = svm.SVC(probability=True)
         
     print('Model: '+a)
     
@@ -72,7 +72,7 @@ def vote(classifiers, data):
     to_excl = ['label']
     predictors = data.columns.difference(to_excl)
     
-    ens = ensemble.VotingClassifier(estimators=classifiers)
+    ens = ensemble.VotingClassifier(estimators=classifiers, voting='soft')
     ens = ens.fit(data[predictors], data['label'])
     
     test_predictions = ens.predict(data[predictors])
@@ -109,7 +109,7 @@ if __name__ == '__main__':
     training_data = shuffle(training_data, random_state=3)
     sv = train_and_xval(training_data[:32666], a="svm")
     test(sv, training_data[32666:33599])
-    gb = train_and_xval(training_data[:35000], a="gb")
+    gb = train_and_xval(training_data[:32666], a="gb")
     test(gb, training_data[32666:33599])
     
     ens = vote([('svm',sv),('gradboost',gb)], training_data[33599:])
