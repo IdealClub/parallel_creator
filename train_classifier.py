@@ -72,7 +72,7 @@ def vote(classifiers, data):
     to_excl = ['label']
     predictors = data.columns.difference(to_excl)
     
-    ens = ensemble.VotingClassifier(estimators=classifiers, voting='soft')
+    ens = ensemble.VotingClassifier(estimators=classifiers)
     ens = ens.fit(data[predictors], data['label'])
     
     test_predictions = ens.predict(data[predictors])
@@ -106,11 +106,10 @@ if __name__ == '__main__':
     
     training_data = shuffle(training_data, random_state=3)
     sv = train_and_xval(training_data[:35000], a="svm")
-    gb = train_and_xval(training_data[:35000], a="gb")
-    
     test(sv, training_data[35000:36000])
+    gb = train_and_xval(training_data[:35000], a="gb")
     test(gb, training_data[35000:36000])
     
-    vote([sv,gb], training_data[36000:])
+    vote([('svm',sv),('gradboost',gb)], training_data[36000:])
         
         
