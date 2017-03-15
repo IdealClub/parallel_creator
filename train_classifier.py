@@ -25,6 +25,8 @@ def train_and_xval(df, a="svm"):
         alg = ensemble.GradientBoostingClassifier()
     else:
         alg = svm.SVC()
+        
+    print('Model: '+a)
     
     # 10-fold cross-validation
     kf = KFold(df.shape[0], n_folds=10, random_state=1)
@@ -39,7 +41,7 @@ def train_and_xval(df, a="svm"):
     # concatenate fold
     predictions = np.concatenate(predictions, axis=0) 
     
-    print('CV scores -- SVM')
+    print('CV scores')
     print('confusion matrix')
     print(metrics.confusion_matrix(df['label'], predictions))
     print('Pr')
@@ -56,7 +58,7 @@ def test(alg, test_set):
     
     test_predictions = alg.predict(test_set[predictors])
     
-    print('test scores -- SVM')
+    print('test scores')
     print('confusion matrix')
     print(metrics.confusion_matrix(test_set['label'], test_predictions))
     print('Pr')
