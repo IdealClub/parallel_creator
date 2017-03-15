@@ -37,11 +37,31 @@ def train_and_xval(df):
     # concatenate fold
     predictions = np.concatenate(predictions, axis=0) 
     
+    print('CV scores -- SVM')
+    print('confusion matrix')
     print(metrics.confusion_matrix(df['label'], predictions))
+    print('Pr')
     print(metrics.precision_score(df['label'], predictions))
+    print('Re')
     print(metrics.recall_score(df['label'], predictions))
     
-    return predictions
+    return alg
+
+def test(alg, test_set):
+    
+    to_excl = ['label']
+    predictors = test_set.columns.difference(to_excl)
+    
+    test_predictions = alg.predict(test_set[predictors].iloc[test,:])
+    
+    print('CV scores -- SVM')
+    print('confusion matrix')
+    print(metrics.confusion_matrix(test_set['label'], test_predictions))
+    print('Pr')
+    print(metrics.precision_score(test_set['label'], test_predictions))
+    print('Re')
+    print(metrics.recall_score(test_set['label'], test_predictions))
+    
 
 if __name__ == '__main__':
     
@@ -62,7 +82,6 @@ if __name__ == '__main__':
     
     training_data = shuffle(training_data, random_state=3)
     p = train_and_xval(training_data[:35000])
-
-    
+    test(p, training_data[35000:36000])
         
         
