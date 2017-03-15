@@ -52,9 +52,9 @@ def test(alg, test_set):
     to_excl = ['label']
     predictors = test_set.columns.difference(to_excl)
     
-    test_predictions = alg.predict(test_set[predictors].iloc[test,:])
+    test_predictions = alg.predict(test_set[predictors])
     
-    print('CV scores -- SVM')
+    print('test scores -- SVM')
     print('confusion matrix')
     print(metrics.confusion_matrix(test_set['label'], test_predictions))
     print('Pr')
