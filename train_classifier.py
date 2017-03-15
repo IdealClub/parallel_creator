@@ -67,6 +67,26 @@ def test(alg, test_set):
     print(metrics.recall_score(test_set['label'], test_predictions))
     
 
+def vote(classifiers, data):
+    
+    to_excl = ['label']
+    predictors = data.columns.difference(to_excl)
+    
+    ens = ensemble.VotingClassifier(estimators=classifiers, voting='soft')
+    ens = ens.fit(data[predictors], data['label'])
+    
+    test_predictions = ens.predict(data[predictors])
+    
+    print('ensemble scores')
+    print('confusion matrix')
+    print(metrics.confusion_matrix(data['label'], test_predictions))
+    print('Pr')
+    print(metrics.precision_score(data['label'], test_predictions))
+    print('Re')
+    print(metrics.recall_score(data['label'], test_predictions))
+    
+
+
 if __name__ == '__main__':
     
     features = []
@@ -85,7 +105,12 @@ if __name__ == '__main__':
     training_data = pd.concat((train_instances, train_labels), axis=1)
     
     training_data = shuffle(training_data, random_state=3)
-    p = train_and_xval(training_data[:35000], a="gb")
-    test(p, training_data[35000:36000])
+    sv = train_and_xval(training_data[:35000], a="svm")
+    gb = train_and_xval(training_data[:35000], a="gb")
+    
+    test(sv, training_data[35000:36000])
+    test(gb, training_data[35000:36000])
+    
+    vote([sv,gb], training_data[36000:])
         
         
