@@ -85,7 +85,7 @@ def vote(classifiers, data):
     print('Re')
     print(metrics.recall_score(data['label'], test_predictions))
     
-
+    return ens
 
 if __name__ == '__main__':
     
@@ -104,12 +104,15 @@ if __name__ == '__main__':
     train_labels.columns = ['label']
     training_data = pd.concat((train_instances, train_labels), axis=1)
     
-    training_data = shuffle(training_data, random_state=3)
-    sv = train_and_xval(training_data[:35000], a="svm")
-    test(sv, training_data[35000:36000])
-    gb = train_and_xval(training_data[:35000], a="gb")
-    test(gb, training_data[35000:36000])
+    print(len(training_data))
     
-    vote([('svm',sv),('gradboost',gb)], training_data[36000:])
+    training_data = shuffle(training_data, random_state=3)
+    sv = train_and_xval(training_data[:32666], a="svm")
+    test(sv, training_data[32666:33599])
+    gb = train_and_xval(training_data[:35000], a="gb")
+    test(gb, training_data[32666:33599])
+    
+    ens = vote([('svm',sv),('gradboost',gb)], training_data[33599:])
+    test(ens, training_data[32666:33599])
         
         
