@@ -9,20 +9,22 @@ import pandas as pd, numpy as np
 import sys
 from sklearn.utils import shuffle
 from sklearn.cross_validation import KFold
-from sklearn import svm
-from sklearn import metrics
+from sklearn import svm, ensemble, metrics
 
 
 def read_data(filename):
     # Read csv to pandas dataframe
     return pd.read_csv(filename, index_col=0, low_memory=False)
 
-def train_and_xval(df):
+def train_and_xval(df, a="svm"):
     
     to_excl = ['label']
     predictors = df.columns.difference(to_excl)
     
-    alg = svm.SVC()
+    if a == "gb":
+        alg = ensemble.GradientBoostingClassifier()
+    else:
+        alg = svm.SVC()
     
     # 10-fold cross-validation
     kf = KFold(df.shape[0], n_folds=10, random_state=1)
@@ -81,7 +83,7 @@ if __name__ == '__main__':
     training_data = pd.concat((train_instances, train_labels), axis=1)
     
     training_data = shuffle(training_data, random_state=3)
-    p = train_and_xval(training_data[:35000])
+    p = train_and_xval(training_data[:35000], a="gb")
     test(p, training_data[35000:36000])
         
         
