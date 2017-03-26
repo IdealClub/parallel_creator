@@ -53,14 +53,7 @@ def find_best_threshold(feas, labels, step=0.005):
                 
         return sorted(accs, key=accs.get, reverse=True)[0]
     
-def train_and_xval(feas, labels):
-    
-    feas = np.array(feas)
-    labels = np.array(labels)
-    print(np.shape(feas), np.shape(labels))
-    
-    X = np.column_stack((feas, labels))
-    X = shuffle(X, random_state=2)
+def train_and_xval(X):
     
     # 10-fold cross-validation
     kf = KFold(X.shape[0], n_folds=10, random_state=1)
@@ -90,7 +83,29 @@ def train_and_xval(feas, labels):
     print('Re')
     print(metrics.recall_score(X[:,1], predictions))
     
-    return np.mean(ths)
+    ## train on whole data set
+    th = find_best_threshold(X[:,0], X[:,1])
+    return th
+
+def test(X, th):
+    
+    test_predictions = []
+    for test_instance in X:
+        if test_instance[0] < th:
+            test_predictions.append(0)
+        else:
+            test_predictions.append(1)
+    
+    print('Test scores')
+    print('confusion matrix')
+    print(metrics.confusion_matrix(X[:,1], test_predictions))
+    print('Pr')
+    print(metrics.precision_score(X[:,1], test_predictions))
+    print('Re')
+    print(metrics.recall_score(X[:,1], test_predictions))
+
+    return test_predictions        
+    
 
 if __name__ == '__main__':
 
@@ -108,6 +123,14 @@ if __name__ == '__main__':
     cosine_sims = []
     for line in alllines:
         cosine_sims.append(float(line.strip()))
+        
+    feas = np.array(cosine_sims)
+    labels = np.array(labels)
     
-    th=train_and_xval(cosine_sims, labels)
+    X = np.column_stack((feas, labels))
+    X = shuffle(X, random_state=2)
+    
+    th=train_and_xval(X[:32666])
     print(th)
+    
+    preds = test(X[32666:33599], th)
