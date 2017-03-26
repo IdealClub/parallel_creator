@@ -49,6 +49,9 @@ def train_and_xval(df, a="svm"):
     print('Re')
     print(metrics.recall_score(df['label'], predictions))
     
+    ## train on whole data 
+    alg.fit(df[predictors], df['label'])
+    
     return alg
 
 def test(alg, test_set):
