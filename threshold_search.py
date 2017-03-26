@@ -6,6 +6,10 @@ Created on Sun Mar 26 14:39:43 2017
 """
 
 import sys
+from sklearn.cross_validation import KFold
+import numpy as np
+from sklearn.utils import shuffle
+from sklearn import metrics
 
 def check_acc(th, feas, labels):
     
@@ -40,14 +44,53 @@ def find_best_threshold(feas, labels, step=0.005):
         while th <= maxneg:
             acc = check_acc(th, feas, labels)
             accs[th] = acc
-            print(th, acc)
+            #print(th, acc)
             th += step
             if th > maxneg:
                 acc = check_acc(maxneg, feas, labels)
                 accs[maxneg] = acc
-                print(maxneg, acc)
+                #print(maxneg, acc)
                 
         return sorted(accs, key=accs.get, reverse=True)[0]
+    
+def train_and_xval(feas, labels):
+    
+    feas = np.array(feas)
+    labels = np.array(labels)
+    print(np.shape(feas), np.shape(labels))
+    
+    X = np.column_stack((feas, labels))
+    X = shuffle(X, random_state=2)
+    
+    # 10-fold cross-validation
+    kf = KFold(X.shape[0], n_folds=10, random_state=1)
+    # train folds
+    predictions = []
+    ths = []
+    for train, test in kf:
+        train_predictors = X[train][:,0]
+        train_target = X[train][:,1]
+        th = find_best_threshold(train_predictors, train_target)
+        test_predictions = []
+        ths.append(th)
+        for test_instance in X[test]:
+            if test_instance[0] < th:
+                test_predictions.append(0)
+            else:
+                test_predictions.append(1)
+        predictions.append(test_predictions)
+    # concatenate fold
+    predictions = np.concatenate(predictions, axis=0)
+    
+    print('CV scores')
+    print('confusion matrix')
+    print(metrics.confusion_matrix(X[:,1], predictions))
+    print('Pr')
+    print(metrics.precision_score(X[:,1], predictions))
+    print('Re')
+    print(metrics.recall_score(X[:,1], predictions))
+    
+    return np.mean(ths)
 
 if __name__ == '__main__':
 
@@ -66,5 +109,5 @@ if __name__ == '__main__':
     for line in alllines:
         cosine_sims.append(float(line.strip()))
     
-    th=find_best_threshold(cosine_sims, labels)
+    th=train_and_xval(cosine_sims, labels)
     print(th)
