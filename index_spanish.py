@@ -31,9 +31,15 @@ with open(sys.argv[1], 'r') as source:
     while True:
         try:
             line = next(source)
-            with open(sys.argv[4], 'a+') as target:
-                target.write(context_dict[sentence_dict[line]])
-        except KeyError:
-            sys.stderr.write('Sentence not found!!')
+            if line in sentence_dict.keys():
+                with open(sys.argv[4], 'a+') as target:
+                    target.write(context_dict[sentence_dict[line]])
+            else:
+                cvx = []
+                for j in range(512):
+                    cvx.append['0.0']
+                with open(sys.argv[4], 'a+') as target:
+                    target.write(' '.join(cvx)+'\n')
+                print('Sentence '+line.strip()+'not found, skipping...')
         except StopIteration:
             break
