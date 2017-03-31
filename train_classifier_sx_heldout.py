@@ -76,6 +76,7 @@ if __name__ == '__main__':
     labels = []
     for arg in sys.argv[1:3]:
         X = read_data(arg)
+        print(X)
         pos = np.repeat(1, len(X)/2)
         neg = np.repeat(0, len(X)/2)
         y = pd.DataFrame(np.concatenate((pos, neg)))
@@ -86,8 +87,7 @@ if __name__ == '__main__':
     train_labels = pd.concat(labels, ignore_index=True)
     train_labels.columns = ['label']
     training_data = pd.concat((train_instances, train_labels), axis=1)
-    
-    print(training_data)
+
     
     ## read context vector similarities
 #    cs = []
