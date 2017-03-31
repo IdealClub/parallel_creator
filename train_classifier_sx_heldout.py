@@ -97,13 +97,24 @@ if __name__ == '__main__':
 #    cosine_sims.columns = ['context-500k']
 #    training_data = pd.concat((training_data, cosine_sims), axis=1)
     
+    
+    train_portion = int(len(X) * 0.875)
+    test_portion = int(len(X) * 0.1)
     training_data = shuffle(training_data, random_state=3)
-    sv = train_full(training_data[:32666], a="svm")
-    test(sv, training_data[32666:33599])
+    sv = train_full(training_data[:train_portion], a="svm")
+    #test(sv, training_data[32666:33599])
     gb = train_full(training_data[:32666], a="gb")
-    test(gb, training_data[32666:33599])
+    #test(gb, training_data[32666:33599])
     
     ens = vote([('svm',sv),('gradboost',gb)], training_data[33599:])
-    test(ens, training_data[32666:33599])
+    #test(ens, training_data[32666:33599])
+     
+    to_extract = read_data(sys.argv[3])
+    predictions = ens.predict(to_extract)
+    with open(sys.argv[4], "w"):
+        pass
+    with open(sys.argv[4], "a+") as target:
+        target.write(str(predictions))
+        
         
         
