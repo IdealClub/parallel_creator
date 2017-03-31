@@ -101,7 +101,7 @@ if __name__ == '__main__':
     train_portion = int(len(X) * 0.875)
     test_portion = int(len(X) * 0.1)
     training_data = shuffle(training_data, random_state=3)
-    sv = train_full(training_data[:train_portion], a="svm")
+    sv = train_full(training_data[:32666], a="svm")
     #test(sv, training_data[32666:33599])
     gb = train_full(training_data[:32666], a="gb")
     #test(gb, training_data[32666:33599])
