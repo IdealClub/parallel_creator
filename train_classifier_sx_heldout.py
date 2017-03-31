@@ -76,7 +76,6 @@ if __name__ == '__main__':
     labels = []
     for arg in sys.argv[1:3]:
         X = read_data(arg)
-        print(X)
         pos = np.repeat(1, len(X)/2)
         neg = np.repeat(0, len(X)/2)
         y = pd.DataFrame(np.concatenate((pos, neg)))
@@ -103,16 +102,18 @@ if __name__ == '__main__':
     train_portion = int(len(X) * 0.875)
     test_portion = int(len(X) * 0.1)
     training_data = shuffle(training_data, random_state=3)
-    sv = train_full(training_data[:32666], a="svm")
+    #sv = train_full(training_data[:32666], a="svm")
+    sv = train_full(training_data[:1], a="svm")
     #test(sv, training_data[32666:33599])
-    gb = train_full(training_data[:32666], a="gb")
+    #gb = train_full(training_data[:32666], a="gb")
     #test(gb, training_data[32666:33599])
     
-    ens = vote([('svm',sv),('gradboost',gb)], training_data[33599:])
+    #ens = vote([('svm',sv),('gradboost',gb)], training_data[33599:])
     #test(ens, training_data[32666:33599])
      
     to_extract = read_data(sys.argv[3])
-    predictions = ens.predict(to_extract)
+    print(to_extract)
+    predictions = sv.predict(to_extract)
     with open(sys.argv[4], "w"):
         pass
     with open(sys.argv[4], "a+") as target:
