@@ -87,6 +87,8 @@ if __name__ == '__main__':
     train_labels.columns = ['label']
     training_data = pd.concat((train_instances, train_labels), axis=1)
     
+    print(training_data)
+    
     ## read context vector similarities
 #    cs = []
 #    for arg in sys.argv[3:]:
