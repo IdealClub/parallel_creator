@@ -134,31 +134,31 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
             for j, tB in enumerate(textB):
                 
                 r = len(tA.split()) / len(tB.split())
-                #if r > 2.0 or r < 0.5:
-                #    continue
-                #else:
+                if r > 2.0 or r < 0.5:
+                    continue
+                else:
                     ## compute cosine sim
-                cvec_1 = np.fromstring(contxA[i].strip(), sep=" ")
-                cvec_2 = np.fromstring(contxB[j].strip(), sep=" ")
-                sim = cosine_similarity(cvec_1, cvec_2)
-                
-                if sim > 0.42:
-                    with open(sys.argv[5]+'.csim', 'a+') as target:
-                        target.write('%d %d %d \n' % (n, i, j))
-                        
-                ## extract all sx feas
-                feas = extract_fea(tA, tB)
-                preds = e_s.predict(feas)
-                if preds[0] == 1:
-                    with open(sys.argv[5]+'.ssim', 'a+') as target:
-                        target.write('%d %d %d \n' % (n, i, j))
-                
-                ## compute cosine sim
-                feas = np.append(feas, sim)
-                preds = e_a.predict(feas)
-                if preds[0] == 1:
-                    with open(sys.argv[5]+'.asim', 'a+') as target:
-                        target.write('%d %d %d \n' % (n, i, j))
+                    cvec_1 = np.fromstring(contxA[i].strip(), sep=" ")
+                    cvec_2 = np.fromstring(contxB[j].strip(), sep=" ")
+                    sim = cosine_similarity(cvec_1, cvec_2)
+                    
+                    if sim > 0.42:
+                        with open(sys.argv[5]+'.csim', 'a+') as target:
+                            target.write('%d %d %d \n' % (n, i, j))
+                            
+                    ## extract all sx feas
+                    feas = extract_fea(tA, tB)
+                    preds = e_s.predict(feas)
+                    if preds[0] == 1:
+                        with open(sys.argv[5]+'.ssim', 'a+') as target:
+                            target.write('%d %d %d \n' % (n, i, j))
+                    
+                    ## compute cosine sim
+                    feas = np.append(feas, sim)
+                    preds = e_a.predict(feas)
+                    if preds[0] == 1:
+                        with open(sys.argv[5]+'.asim', 'a+') as target:
+                            target.write('%d %d %d \n' % (n, i, j))
                     
                 
     
