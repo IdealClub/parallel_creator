@@ -148,18 +148,24 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                             
                     ## extract all sx feas
                     feas = extract_fea(tA, tB)
-                    preds = e_s.predict(feas)
-                    if preds[0] == 1:
-                        with open(sys.argv[5]+'.ssim', 'a+') as target:
-                            target.write('%d %d %d \n' % (n, i, j))
+                    try:
+                        preds = e_s.predict(feas)
+                        if preds[0] == 1:
+                            with open(sys.argv[5]+'.ssim', 'a+') as target:
+                                target.write('%d %d %d \n' % (n, i, j))
+                    except:
+                        continue
                     
                     ## compute cosine sim
                     feas = np.append(feas, sim)
-                    preds = e_a.predict(feas)
-                    #print(e_a.predict_proba(feas))
-                    if preds[0] == 1:
-                        with open(sys.argv[5]+'.asim', 'a+') as target:
-                            target.write('%d %d %d \n' % (n, i, j))
+                    try:
+                        preds = e_a.predict(feas)
+                        #print(e_a.predict_proba(feas))
+                        if preds[0] == 1:
+                            with open(sys.argv[5]+'.asim', 'a+') as target:
+                                target.write('%d %d %d \n' % (n, i, j))
+                    except:
+                        continue
                     
                 
     
