@@ -18,6 +18,14 @@ import pandas as pd
 import pickle
 from sklearn import svm, ensemble
 
+with open(sys.argv[5]+'.csim', 'w'):
+    pass
+with open(sys.argv[5]+'.ssim', 'w'):
+    pass
+with open(sys.argv[5]+'.asim', 'w'):
+    pass
+
+
 def cosine_sim(dictionary):
     
     cosine_sim = 0
@@ -140,10 +148,17 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                             
                     ## extract all sx feas
                     feas = extract_fea(tA, tB)
-                    print(e_s.predict(feas))
+                    preds = e_s.predict(feas)
+                    if preds[0] == 1:
+                        with open(sys.argv[5]+'.ssim', 'a+') as target:
+                            target.write('%d %d %d \n' % (n, i, j))
                     
                     ## compute cosine sim
-                    
+                    feas = feas.append(sim)
+                    preds = e_a.predict(feas)
+                    if preds[0] == 1:
+                        with open(sys.argv[5]+'.asim', 'a+') as target:
+                            target.write('%d %d %d \n' % (n, i, j))
                     
                 
     
