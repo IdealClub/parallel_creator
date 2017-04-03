@@ -112,15 +112,15 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
         
         textA = []
         textB = []
-        ctxA = []
-        ctxB = []
+        contxA = []
+        contxB = []
         
         for i in range(source_nos):
             textA.append(next(corpusA))
-            ctxA.append(next(ctxA))
+            contxA.append(next(ctxA))
         for i in range(target_nos):
             textB.append(next(corpusB))
-            ctxB.append(next(ctxB))
+            contxB.append(next(ctxB))
         
         for i, tA in enumerate(textA):
             for j, tB in enumerate(textB):
@@ -130,8 +130,8 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                     continue
                 else:
                     ## compute cosine sim
-                    cvec_1 = np.fromstring(ctxA[i].strip(), sep=" ")
-                    cvec_2 = np.fromstring(ctxB[j].strip(), sep=" ")
+                    cvec_1 = np.fromstring(contxA[i].strip(), sep=" ")
+                    cvec_2 = np.fromstring(contxB[j].strip(), sep=" ")
                     sim = cosine_similarity(cvec_1, cvec_2)
                     
                     if sim > 0.42:
