@@ -10,7 +10,7 @@ import sys
 from sklearn.utils import shuffle
 #from sklearn.cross_validation import KFold
 from sklearn import svm, ensemble, metrics
-import cPickle
+import pickle
 
 
 
@@ -123,6 +123,6 @@ if __name__ == '__main__':
    
     # save the classifier
     with open('sx_ensemble.pkl', 'wb') as fid:
-        cPickle.dump(ens, fid)        
+        pickle.dump(ens, fid)        
         
         
