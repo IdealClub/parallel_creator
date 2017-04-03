@@ -72,7 +72,7 @@ def lf(line1, line2):
     return math.exp(-.5*((((len(line2)/len(line1))-1.133)/0.415))**2)
       
 
-def extract_fea(tA, tB, sim):
+def extract_fea(tA, tB):
     
     ngram_cosine_sims = {}
     for n in range(2,6):
