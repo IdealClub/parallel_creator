@@ -25,13 +25,13 @@ split_size = int(len(nos) / n) + 1
 a_start = 0
 b_start = 0
 for i in range(n):
-    no_start = n * split_size
+    no_start = i * split_size
     if no_start+split_size < len(nos):
         no_part = nos[no_start:no_start+split_size]
     else:
         no_part = nos[no_start:]   
     with open(sys.argv[5]+str(i), 'a+') as target:
-        target.write('\n'.join(no_part))
+        target.write(''.join(no_part))
 
     a_next = 0
     b_next = 0
@@ -41,25 +41,31 @@ for i in range(n):
         
     with open(sys.argv[1]) as corpusA, open(sys.argv[2]) as corpusB, open(sys.argv[3]) as contextA, open(sys.argv[4]) as contextB:
         for j in range(a_start):
+            #print('skipping', j)
             next(corpusA)
             next(contextA)
         for j in range(b_start):
+            #print('skipping', j)
             next(corpusB)
             next(contextB)
         for j in range(a_next):
+            #print('a', j)
             line = next(corpusA)
             cnx = next(contextA)
-            with open(sys.argv[1]+str(j), 'a+') as target:
+            #print(line)
+            with open(sys.argv[1]+str(i), 'a+') as target:
                 target.write(line)
-            with open(sys.argv[3]+str(j), 'a+') as target:
+            with open(sys.argv[3]+str(i), 'a+') as target:
                 target.write(cnx)
                 
         for j in range(b_next):
+            #print('b',j)
             line = next(corpusB)
             cnx = next(contextB)
-            with open(sys.argv[2]+str(j), 'a+') as target:
+            #print(line)
+            with open(sys.argv[2]+str(i), 'a+') as target:
                 target.write(line)
-            with open(sys.argv[4]+str(j), 'a+') as target:
+            with open(sys.argv[4]+str(i), 'a+') as target:
                 target.write(cnx)
                 
     a_start += a_next
