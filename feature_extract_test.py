@@ -154,7 +154,7 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                             target.write('%d %d %d \n' % (n, i, j))
                     
                     ## compute cosine sim
-                    feas = feas.append(sim)
+                    feas = np.append(feas, sim)
                     preds = e_a.predict(feas)
                     if preds[0] == 1:
                         with open(sys.argv[5]+'.asim', 'a+') as target:
