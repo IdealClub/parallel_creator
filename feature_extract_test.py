@@ -148,7 +148,7 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                             
                     ## extract all sx feas
                     feas = pd.DataFrame(extract_fea(tA, tB))
-                    feas.columns = ['2-gram-cos','3-gram-cos','4-gram-cos','5-gram-cos','chars-1','chars-2','cognate-cos','length-factor','tokens-1','tokens-2']
+                    #feas.columns = ['2-gram-cos','3-gram-cos','4-gram-cos','5-gram-cos','chars-1','chars-2','cognate-cos','length-factor','tokens-1','tokens-2']
                     preds = e_s.predict(feas)
                     if preds[0] == 1:
                         with open(sys.argv[5]+'.ssim', 'a+') as target:
