@@ -142,7 +142,7 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                     cvec_2 = np.fromstring(contxB[j].strip(), sep=" ")
                     sim = cosine_similarity(cvec_1, cvec_2)
                     
-                    if sim > 0.42:
+                    if sim > 0.43:
                         with open(sys.argv[5]+'.csim', 'a+') as target:
                             target.write('%d %d %d \n' % (n, i, j))
                             
