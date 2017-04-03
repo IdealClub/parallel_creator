@@ -10,6 +10,7 @@ import sys
 from sklearn.utils import shuffle
 from sklearn.cross_validation import KFold
 from sklearn import svm, ensemble, metrics
+import pickle
 
 
 def read_data(filename):
@@ -99,11 +100,15 @@ if __name__ == '__main__':
     
     training_data = shuffle(training_data, random_state=3)
     sv = train_full(training_data[:32666], a="svm")
-    test(sv, training_data[32666:33599])
+    #test(sv, training_data[32666:33599])
     gb = train_full(training_data[:32666], a="gb")
-    test(gb, training_data[32666:33599])
+    #test(gb, training_data[32666:33599])
     
     ens = vote([('svm',sv),('gradboost',gb)], training_data[33599:])
-    test(ens, training_data[32666:33599])
+    #test(ens, training_data[32666:33599])
+    
+    # save the classifier
+    with open('all_ensemble.pkl', 'wb') as fid:
+        pickle.dump(ens, fid)     
         
         
