@@ -32,8 +32,8 @@ for match in matches:
     sntA = int(match.strip().split()[1])
     sntB = int(match.strip().split()[2])
     
-    startA = sum(lengthsA[article])
-    startB = sum(lengthsB[article])
+    startA = sum(lengthsA[:article])
+    startB = sum(lengthsB[:article])
     
     with open(sys.argv[4]+'.a', 'a+') as target:
         target.write(corpusA[startA+sntA])
