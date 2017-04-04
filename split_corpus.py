@@ -10,7 +10,7 @@ args: corpusA corpusB no splits
 import sys
 
 ## get number of splits
-n = int(sys.argv[6])
+n = int(sys.argv[4])
 
 for i in range(n):
     with open(sys.argv[1]+str(i), 'w'), open(sys.argv[2]+str(i), 'w'):
@@ -18,7 +18,7 @@ for i in range(n):
 
 
 ## split no files accordingly
-with open(sys.argv[5], 'r') as source:
+with open(sys.argv[3], 'r') as source:
     nos = source.readlines()
 
 split_size = int(len(nos) / n) + 1
