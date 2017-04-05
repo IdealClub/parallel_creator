@@ -95,6 +95,9 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
 
     with open('all_ensemble.pkl', 'rb') as fid:
         e_a = pickle.load(fid)
+    with open('all_ensemble.pkl', 'rb') as fid:
+        e_s = pickle.load(fid)
+
     
     for n, num in enumerate(nos):
         source_nos = int(num.strip().split()[0])
@@ -115,8 +118,10 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
         for i, tA in enumerate(textA):
             for j, tB in enumerate(textB):
                 
-                r = len(tA.split()) / len(tB.split())
-                if r > 2.0 or r < 0.5:
+                lA = len(tA.split())
+                lB = len(tB.split())
+                r = lA / lB
+                if r > 2.0 or r < 0.5 or lA == 1 or lB == 1:
                     continue
                 else:
                     ## compute cosine sim
@@ -127,11 +132,12 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                     ## extract all sx feas
                     feas = extract_fea(tA, tB)
                     ## compute cosine sim
-                    feas = np.append(feas, sim)
+                    feas_c = np.append(feas, sim)
                     try:
-                        pred_probs = pd.DataFrame(e_a.predict_proba(feas))
+                        pred_probs = pd.DataFrame(e_a.predict_proba(feas_c))
+                        preds_s = e_s.predict(feas) 
                         #print(pred_probs)
-                        if pred_probs[1][0] >= 0.9:
+                        if pred_probs[1][0] >= 0.666 and preds_s[0] == 1 and sim > 0.43:
                             with open(sys.argv[5]+'.asim', 'a+') as target:
                                 target.write('%d %d %d \n' % (n, i, j))
                     except:
