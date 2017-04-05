@@ -130,6 +130,7 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                     feas = np.append(feas, sim)
                     try:
                         pred_probs = pd.DataFrame(e_a.predict_proba(feas))
+                        print(pred_probs)
                         if pred_probs[0][1] >= 0.9:
                             with open(sys.argv[5]+'.asim', 'a+') as target:
                                 target.write('%d %d %d \n' % (n, i, j))
