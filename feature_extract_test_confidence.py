@@ -149,7 +149,7 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                                 target.write('%d %d %d %f \n' % (n, i, j, preds_s[1][0]))
                         if sim > 0.43:
                             with open(sys.argv[5]+'.csim', 'a+') as target:
-                                target.write('%d %d %d %f \n' % (n, i, j, sim)
+                                target.write('%d %d %d %f \n' % (n, i, j, sim))
                     except:
                         continue
                     
