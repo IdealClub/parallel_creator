@@ -17,10 +17,6 @@ import string
 import pandas as pd
 import pickle
 
-with open(sys.argv[5]+'.csim', 'w'):
-    pass
-with open(sys.argv[5]+'.ssim', 'w'):
-    pass
 with open(sys.argv[5]+'.asim', 'w'):
     pass
 
