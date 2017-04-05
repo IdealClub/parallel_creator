@@ -95,7 +95,7 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
 
     with open('all_ensemble.pkl', 'rb') as fid:
         e_a = pickle.load(fid)
-    with open('all_ensemble.pkl', 'rb') as fid:
+    with open('sx_ensemble.pkl', 'rb') as fid:
         e_s = pickle.load(fid)
 
     
