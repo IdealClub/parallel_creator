@@ -118,8 +118,8 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
         for i, tA in enumerate(textA):
             for j, tB in enumerate(textB):
                 
-                lA = len(tA.split())
-                lB = len(tB.split())
+                lA = len(tA.strip().split())
+                lB = len(tB.strip().split())
                 r = lA / lB
                 if r > 2.0 or r < 0.5 or lA == 1 or lB == 1:
                     continue
