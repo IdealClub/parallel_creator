@@ -121,7 +121,7 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                 lA = len(tA.strip().split())
                 lB = len(tB.strip().split())
                 r = lA / lB
-                if r > 2.0 or r < 0.5 or lA == 1 or lB == 1:
+                if r > 2.0 or r < 0.5 or lA < 3 or lB < 3 or lA > 50 or lB > 50:
                     continue
                 else:
                     ## compute cosine sim
@@ -137,9 +137,15 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                         pred_probs = pd.DataFrame(e_a.predict_proba(feas_c))
                         preds_s = pd.DataFrame(e_s.predict_proba(feas))
                         #print(pred_probs)
-                        if pred_probs[1][0] >= 0.5 and preds_s[1][0] >= 0.5  and sim > 0.43:
+                        if pred_probs[1][0] > 0.5:
                             with open(sys.argv[5]+'.asim', 'a+') as target:
                                 target.write('%d %d %d %f \n' % (n, i, j, pred_probs[1][0]))
+                        if preds_s[1][0] >= 0.5:
+                            with open(sys.argv[5]+'.ssim', 'a+') as target:
+                                target.write('%d %d %d %f \n' % (n, i, j, preds_s[1][0]))
+                        if sim > 0.43:
+                            with open(sys.argv[5]+'.csim', 'a+') as target:
+                                target.write('%d %d %d %f \n' % (n, i, j, sim)
                     except:
                         continue
                     
