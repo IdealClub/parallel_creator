@@ -135,9 +135,9 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                     feas_c = np.append(feas, sim)
                     try:
                         pred_probs = pd.DataFrame(e_a.predict_proba(feas_c))
-                        preds_s = e_s.predict(feas) 
+                        preds_s = pd.DataFrame(e_s.predict_proba(feas))
                         #print(pred_probs)
-                        if pred_probs[1][0] >= 0.666 and preds_s[0] == 1 and sim > 0.43:
+                        if pred_probs[1][0] >= 0.666 and preds_s[1][0] >= 0.666  and sim > 0.43:
                             with open(sys.argv[5]+'.asim', 'a+') as target:
                                 target.write('%d %d %d \n' % (n, i, j))
                     except:
