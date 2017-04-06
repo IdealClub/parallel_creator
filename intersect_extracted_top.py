@@ -49,5 +49,5 @@ intersect = s1 & s2 & s3
 
 for element in intersect:
     with open(sys.argv[4], 'a+') as target:
-        target.write(' '.join(element))
+        target.write(' '.join(element)+'\n')
         
