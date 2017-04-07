@@ -17,9 +17,9 @@ for sim in  a c s; do
 	cat *.${sim}sim.ind | sort -k4 -n | tail -n $1 > ${sim}sim.top${1}
 	./split_intersect.sh ${sim}sim.top${1} $2
 	./id_extract.sh $3 $4 $5 ${sim}sim.top${1}
-	rm ${sim}sim.top${1} ${sim}sim.top${1}*
 	mkdir -p ${sim}.${1} 
 	mv *.a *.b ${sim}.${1}
+	rm ${sim}sim.top${1} ${sim}sim.top${1}*
 	
 	## create training corpus
 	cd ${sim}.${1}
