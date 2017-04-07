@@ -28,7 +28,8 @@ for sim in  a c s; do
 	echo "Joining extraction..."
 	cd ${sim}.${1}
 	cat *.a >> ${6}-${7}.${6}
-	cat *.b >> ${6}-${7}.${6}
+	cat *.b >> ${6}-${7}.${7}
+	rm *.a *.b
 	
 	## append tags and filter
 	echo "Appending tags..."
