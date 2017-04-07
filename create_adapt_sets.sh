@@ -13,24 +13,30 @@
 
 
 for sim in  a c s; do
+	echo "Using classifier: ${sim}"
 	## get top ranking and extract corresponding sentences
+	echo "Getting top ranking..."
 	cat *.${sim}sim.ind | sort -k4 -n | tail -n $1 > ${sim}sim.top${1}
 	./split_intersect.sh ${sim}sim.top${1} $2
+	echo "Extracting sentences..."
 	./id_extract.sh $3 $4 $5 ${sim}sim.top${1}
 	mkdir -p ${sim}.${1} 
 	mv *.a *.b ${sim}.${1}
 	rm ${sim}sim.top${1} ${sim}sim.top${1}*
 	
 	## create training corpus
+	echo "Joining extraction..."
 	cd ${sim}.${1}
 	cat *.a >> ${6}-${7}.${6}
 	cat *.b >> ${6}-${7}.${6}
 	
 	## append tags and filter
-	sed "s/|/\& 124 ;/g" ${6}-${7}.${6} | sed "s/^/&<2${7}>/g" > ${6}-${7}.${6}.2${7}
-	sed "s/|/\& 124 ;/g" ${6}-${7}.${7} | sed "s/^/&<2${6}>/g" > ${6}-${7}.${7}.2${6}
+	echo "Appending tags..."
+	sed "s/|/\& 124 ;/g" ${6}-${7}.${6} | sed "s/^/&<2${7} >/g" > ${6}-${7}.${6}.2${7}
+	sed "s/|/\& 124 ;/g" ${6}-${7}.${7} | sed "s/^/&<2${6} >/g" > ${6}-${7}.${7}.2${6}
 	
 	## join source and target
+	echo "Creating final corpora..."
 	cat ${6}-${7}.${6}.2${7} ${6}-${7}.${7}.2${6} >> ${6}-${7}.src
 	cat ${6}-${7}.${7} ${6}-${7}.${6} | sed "s/|/\& 124 ;/g" >> ${6}-${7}.tgt
 	
