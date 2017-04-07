@@ -33,8 +33,8 @@ for sim in  a c s; do
 	
 	## append tags and filter
 	echo "Appending tags..."
-	sed "s/|/\& 124 ;/g" ${6}-${7}.${6} | sed "s/^/&<2${7} >/g" > ${6}-${7}.${6}.2${7}
-	sed "s/|/\& 124 ;/g" ${6}-${7}.${7} | sed "s/^/&<2${6} >/g" > ${6}-${7}.${7}.2${6}
+	sed "s/|/\& 124 ;/g" ${6}-${7}.${6} | sed "s/^/&<2${7}> /g" > ${6}-${7}.${6}.2${7}
+	sed "s/|/\& 124 ;/g" ${6}-${7}.${7} | sed "s/^/&<2${6}> /g" > ${6}-${7}.${7}.2${6}
 	
 	## join source and target
 	echo "Creating final corpora..."
