@@ -30,8 +30,9 @@ save_feas = True
 
 with open(sys.argv[5]+'.rsim', 'w'):
     pass
-with open(sys.argv[5]+'.fea', 'w'):
-    pass
+if save_feas:
+    with open(sys.argv[5]+'.fea', 'w'):
+        pass
 
 def cosine_sim(dictionary):
     
