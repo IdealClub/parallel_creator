@@ -25,7 +25,12 @@ import pandas as pd
 import pickle
 import re
 
+## whether to save extrcted features for later reuse
+save_feas = True
+
 with open(sys.argv[5]+'.rsim', 'w'):
+    pass
+with open(sys.argv[5]+'.fea', 'w'):
     pass
 
 def cosine_sim(dictionary):
@@ -147,9 +152,12 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                         gb_pred = gb.predict(feas_c)
                         ens_pred = ens.predict(np.array([sv_pred, gb_pred]))
                         
-                        if ens_pred > 0.5:
-                            with open(sys.argv[5]+'rsim', 'a+') as target:
-                                target.write('%d %d %d %f \n' % (n, i, j, ens_pred))
+                        with open(sys.argv[5]+'.rsim', 'a+') as target:
+                            target.write('%d %d %d %f \n' % (n, i, j, ens_pred))
+                        if save_feas:
+                            with open(sys.argv[5]+'.fea', 'a+') as target:
+                                target.write(str(feas_c)+'\n')
+                        
                     except:
                         continue
                     
