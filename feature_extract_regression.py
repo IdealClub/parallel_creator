@@ -148,21 +148,20 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                     feas = extract_fea(tA, tB)
                     ## compute cosine sim
                     feas_c = np.append(feas, sim)
-                    if True:
+                    try:
                         sv_pred = sv.predict(feas_c)
-                        print(sv_pred)
                         gb_pred = gb.predict(feas_c)
-                        print(gb_pred)
-                        print(np.array([sv_pred, gb_pred]))
                         ens_pred = ens.predict(np.concatenate((sv_pred, gb_pred)))
-                        print(ens_pred)
-                        with open(sys.argv[5]+'.rsim', 'a+') as target:
-                            target.write('%d %d %d %f \n' % (n, i, j, ens_pred))
-                        if save_feas:
-                            with open(sys.argv[5]+'.fea', 'a+') as target:
-                                target.write(str(feas_c)+'\n')
+                        if ens_pred > .5:
+                            with open(sys.argv[5]+'.rsim', 'a+') as target:
+                                target.write('%d %d %d %f \n' % (n, i, j, ens_pred))
+                            if save_feas:
+                                with open(sys.argv[5]+'.fea', 'a+') as target:
+                                    target.write(str(i*j)+' '+str(feas_c)+'\n')
+                        else:
+                            continue
                         
-                    else:
+                    except:
                         continue
                     
                 
