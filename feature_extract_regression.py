@@ -130,7 +130,7 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                 lA = len(tA.strip().split())
                 lB = len(tB.strip().split())
                 r = lA / lB
-                if r > 2.0 or r < 0.5 or lA < 4 or lB < 4 or lA > 50 or lB > 50 or re.match('\\\\', lA) or re.match('\\\\', lB):
+                if r > 2.0 or r < 0.5 or lA < 4 or lB < 4 or lA > 50 or lB > 50 or re.match('\\\\', tA) or re.match('\\\\', tB):
                     continue
                 else:
                     ## compute cosine sim
