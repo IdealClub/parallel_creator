@@ -20,7 +20,7 @@ def read_data(filename):
 def train_and_xval(df, a="svm"):
     
     to_excl = ['label']
-    predictors = training_data.columns.difference(to_excl)
+    predictors = df.columns.difference(to_excl)
     
     if a == "gb":
         alg = ensemble.GradientBoostingRegressor()
@@ -37,7 +37,9 @@ def train_and_xval(df, a="svm"):
 def vote(classifiers, data):
     
     to_excl = ['label']
-    predictors = training_data.columns.difference(to_excl)
+    predictors = data.columns.difference(to_excl)
+    
+    print('Training Model: ensemble')
    
     predictor_features = []
     for i, classifier in enumerate(classifiers):
@@ -50,6 +52,58 @@ def vote(classifiers, data):
     
     return ens
 
+def test(classifier, data):
+    
+    to_excl = ['label']
+    predictors = data.columns.difference(to_excl)
+    
+    predictions = classifier.predict(data[predictors])
+    class_predictions = []
+    for p in predictions:
+        if p > .5:
+            class_predictions.append(1)
+        else:
+            class_predictions.append(0)
+            
+    print('Test scores')
+    print('confusion matrix')
+    print(metrics.confusion_matrix(data['label'], class_predictions))
+    print('Pr')
+    print(metrics.precision_score(data['label'], class_predictions))
+    print('Re')
+    print(metrics.recall_score(data['label'], class_predictions))
+    print('F')
+    print(metrics.f1_score(data['label'], class_predictions))
+    
+def test_ens(base_classifiers, ensemble, data):
+    
+    to_excl = ['label']
+    predictors = data.columns.difference(to_excl)
+    
+    predictor_features = []
+    for i, classifier in enumerate(base_classifiers):
+        y = pd.DataFrame(classifier.predict(data[predictors]))
+        predictor_features.append(y)
+    
+    dev_data = pd.concat(predictor_features, axis=1, ignore_index=True)
+    predictions = ensemble.predict(dev_data)
+    class_predictions = []
+    for p in predictions:
+        if p > .5:
+            class_predictions.append(1)
+        else:
+            class_predictions.append(0)
+            
+    print('Test scores')
+    print('confusion matrix')
+    print(metrics.confusion_matrix(data['label'], class_predictions))
+    print('Pr')
+    print(metrics.precision_score(data['label'], class_predictions))
+    print('Re')
+    print(metrics.recall_score(data['label'], class_predictions))
+    print('F')
+    print(metrics.f1_score(data['label'], class_predictions))
+    
 if __name__ == '__main__':
     
     features = []
@@ -78,15 +132,23 @@ if __name__ == '__main__':
     training_data = pd.concat((training_data, cosine_sims), axis=1)
     
 
+    #training_portion = int(len(training_data) * 0.875)
     training_portion = int(len(training_data) * 0.875)
     test_portion = int(len(training_data) * 0.025)
     ensemble_portion = int(len(training_data) * 0.1)
     training_data = shuffle(training_data, random_state=3)
     
     sv = train_and_xval(training_data[:training_portion], a="svm")
+    test(sv, training_data[training_portion:training_portion+test_portion])
     gb = train_and_xval(training_data[:training_portion], a="gb")
+    test(gb, training_data[training_portion:training_portion+test_portion])
     
     ens = vote([sv, gb], training_data[-ensemble_portion:])
+    test_ens([sv, gb], ens, training_data[training_portion:training_portion+test_portion])
+    
+    
+    
+    
     
     with open('sv_regression.pkl', 'wb') as fid:
         pickle.dump(sv, fid) 
