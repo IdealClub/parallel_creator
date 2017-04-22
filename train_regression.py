@@ -2,13 +2,14 @@
 """
 Created on Tue Mar 14 09:43:01 2017
 
+Args: set_feas1 set_feas2 ctx_sim1 ctx_sim2 features(all/set/ctx)
+
 @author: vurga
 """
 
 import pandas as pd, numpy as np
 import sys
 from sklearn.utils import shuffle
-from sklearn.cross_validation import KFold
 from sklearn import svm, ensemble, metrics, linear_model
 import pickle
 
@@ -20,7 +21,13 @@ def read_data(filename):
 def train_and_xval(df, a="svm"):
     
     to_excl = ['label']
-    predictors = df.columns.difference(to_excl)
+    if sys.argv[5] == 'all':
+        predictors = df.columns.difference(to_excl)
+    elif sys.argv[5] == 'set':
+        to_excl.append('context-500k')
+        predictors = df.columns.difference(to_excl)
+    else:
+        predictors = ['context-500k']
     
     if a == "gb":
         alg = ensemble.GradientBoostingRegressor()
@@ -37,7 +44,13 @@ def train_and_xval(df, a="svm"):
 def vote(classifiers, data):
     
     to_excl = ['label']
-    predictors = data.columns.difference(to_excl)
+    if sys.argv[5] == 'all':
+        predictors = data.columns.difference(to_excl)
+    elif sys.argv[5] == 'set':
+        to_excl.append('context-500k')
+        predictors = data.columns.difference(to_excl)
+    else:
+        predictors = ['context-500k']
     
     print('Training Model: ensemble')
    
@@ -55,7 +68,13 @@ def vote(classifiers, data):
 def test(classifier, data):
     
     to_excl = ['label']
-    predictors = data.columns.difference(to_excl)
+    if sys.argv[5] == 'all':
+        predictors = data.columns.difference(to_excl)
+    elif sys.argv[5] == 'set':
+        to_excl.append('context-500k')
+        predictors = data.columns.difference(to_excl)
+    else:
+        predictors = ['context-500k']
     
     predictions = classifier.predict(data[predictors])
     class_predictions = []
@@ -78,7 +97,13 @@ def test(classifier, data):
 def test_ens(base_classifiers, ensemble, data):
     
     to_excl = ['label']
-    predictors = data.columns.difference(to_excl)
+    if sys.argv[5] == 'all':
+        predictors = data.columns.difference(to_excl)
+    elif sys.argv[5] == 'set':
+        to_excl.append('context-500k')
+        predictors = data.columns.difference(to_excl)
+    else:
+        predictors = ['context-500k']
     
     predictor_features = []
     for i, classifier in enumerate(base_classifiers):
@@ -150,11 +175,11 @@ if __name__ == '__main__':
     
     
     
-    with open('sv_regression.pkl', 'wb') as fid:
+    with open(sys.argv[5]+'.sv_regression.pkl', 'wb') as fid:
         pickle.dump(sv, fid) 
-    with open('gb_regression.pkl', 'wb') as fid:
+    with open(sys.argv[5]+'.gb_regression.pkl', 'wb') as fid:
         pickle.dump(gb, fid) 
-    with open('regression_ensemble.pkl', 'wb') as fid:
+    with open(sys.argv[5]+'.regression_ensemble.pkl', 'wb') as fid:
         pickle.dump(ens, fid)     
     
         
