@@ -9,7 +9,7 @@ Created on Thu Apr 20 17:25:40 2017
 """
 Created on Mon Apr  3 10:34:32 2017
 
-Args: corpusA corpusB ctxA ctxB nos
+Args: corpusA corpusB ctxA ctxB nos save_feas(True/False) classifier(sv/gb/ens)
 
 @author: vurga
 """
@@ -26,7 +26,7 @@ import pickle
 import re
 
 ## whether to save extrcted features for later reuse
-save_feas = True
+save_feas = sys.argv[6]
 
 with open(sys.argv[5]+'.rsim', 'w'):
     pass
@@ -113,7 +113,7 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
     with open('regression_ensemble.pkl', 'rb') as fid:
         ens = pickle.load(fid)
 
-   
+       
     for n, num in enumerate(nos):
         source_nos = int(num.strip().split()[0])
         target_nos = int(num.strip().split()[1])
@@ -139,31 +139,45 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                 if r > 2.0 or r < 0.5 or lA < 4 or lB < 4 or lA > 50 or lB > 50 or re.match('\\\\', tA) or re.match('\\\\', tB):
                     continue
                 else:
-                    ## compute cosine sim
-                    cvec_1 = np.fromstring(contxA[i].strip(), sep=" ")
-                    cvec_2 = np.fromstring(contxB[j].strip(), sep=" ")
-                    sim = cosine_similarity(cvec_1, cvec_2)
-                            
-                    ## extract all sx feas
-                    feas = extract_fea(tA, tB)
-                    ## compute cosine sim
-                    feas_c = np.append(feas, sim)
-                    try:
-                        sv_pred = sv.predict(feas_c)
-                        gb_pred = gb.predict(feas_c)
-                        ens_pred = ens.predict(np.concatenate((sv_pred, gb_pred)))
-                        if ens_pred > .5:
-                            with open(sys.argv[5]+'.rsim', 'a+') as target:
-                                target.write('%d %d %d %f \n' % (n, i, j, ens_pred))
-                            if save_feas:
-                                with open(sys.argv[5]+'.fea', 'a+') as target:
-                                    target.write(str(i*j)+' '+str(feas_c)+'\n')
-                        else:
-                            continue
+                    if save_feas:
+                        ## compute cosine sim
+                        cvec_1 = np.fromstring(contxA[i].strip(), sep=" ")
+                        cvec_2 = np.fromstring(contxB[j].strip(), sep=" ")
+                        sim = cosine_similarity(cvec_1, cvec_2)
+                                
+                        ## extract all sx feas
+                        feas = extract_fea(tA, tB)
+                        ## compute cosine sim
+                        feas_c = np.append(feas, sim)
                         
+                    else:
+                        with open(sys.argv[5]+'.fea', 'r') as source:
+                            idx = None
+                            while idx != i * j:
+                                line = next(source)
+                                idx = int(line.strip().split()[0])
+                            feas_c = np.fromstring(' '.join(line.strip().split()[1:]), sep=' ')
+                       
+                    try:
+                            
+                            if sys.argv[7] == 'ens':
+                                sv_pred = sv.predict(feas_c)
+                                gb_pred = gb.predict(feas_c)
+                                ens_pred = ens.predict(np.concatenate((sv_pred, gb_pred)))
+                            elif sys.argv[7] == 'sv':
+                                sv_pred = sv.predict(feas_c)
+                                ens_pred = sv_pred
+                            else:
+                                gb_pred = gb.predict(feas_c)
+                                ense_pred = gb_pred
+                            if ens_pred > .5:
+                                with open(sys.argv[5]+'.rsim', 'a+') as target:
+                                    target.write('%d %d %d %f \n' % (n, i, j, ens_pred))
+                                if save_feas:
+                                    with open(sys.argv[5]+'.fea', 'a+') as target:
+                                        target.write(str(i*j)+' '+' '.join([str(x) for x in feas_c])+' \n')
+                            else:
+                                continue
+                            
                     except:
                         continue
-                    
-                
-    
-    
