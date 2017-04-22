@@ -28,7 +28,7 @@ import re
 ## whether to save extrcted features for later reuse
 save_feas = sys.argv[6]
 
-with open(sys.argv[5]+'.rsim', 'w'):
+with open(sys.argv[5]+'.'+sys.argv[8]+'.rsim', 'w'):
     pass
 if save_feas:
     with open(sys.argv[5]+'.fea', 'w'):
