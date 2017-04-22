@@ -9,7 +9,7 @@ Created on Thu Apr 20 17:25:40 2017
 """
 Created on Mon Apr  3 10:34:32 2017
 
-Args: corpusA corpusB ctxA ctxB nos save_feas(True/False) classifier(sv/gb/ens)
+Args: corpusA corpusB ctxA ctxB nos save_feas(True/False) classifier(sv/gb/ens) features(all/set/ctx)
 
 @author: vurga
 """
@@ -106,11 +106,11 @@ with open(sys.argv[5], 'r') as source:
     
 with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.argv[3]) as ctxA, open(sys.argv[4]) as ctxB:
 
-    with open('sv_regression.pkl', 'rb') as fid:
+    with open(sys.argv[8]+'.sv_regression.pkl', 'rb') as fid:
         sv = pickle.load(fid)
-    with open('gb_regression.pkl', 'rb') as fid:
+    with open(sys.argv[8]+'.gb_regression.pkl', 'rb') as fid:
         gb = pickle.load(fid) 
-    with open('regression_ensemble.pkl', 'rb') as fid:
+    with open(sys.argv[8]+'.regression_ensemble.pkl', 'rb') as fid:
         ens = pickle.load(fid)
 
        
@@ -171,7 +171,7 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                                 gb_pred = gb.predict(feas_c)
                                 ense_pred = gb_pred
                             if ens_pred > .5:
-                                with open(sys.argv[5]+'.rsim', 'a+') as target:
+                                with open(sys.argv[5]+'.'+sys.argv[8]+'.rsim', 'a+') as target:
                                     target.write('%d %d %d %f \n' % (n, i, j, ens_pred))
                                 if save_feas:
                                     with open(sys.argv[5]+'.fea', 'a+') as target:
