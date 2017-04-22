@@ -148,7 +148,7 @@ if __name__ == '__main__':
     
     ## read context vector similarities
     cs = []
-    for arg in sys.argv[3:]:
+    for arg in sys.argv[3:-1]:
         C = pd.read_csv(arg, header=None)
         cs.append(C)
         
@@ -175,11 +175,11 @@ if __name__ == '__main__':
     
     
     
-    with open(sys.argv[5]+'.sv_regression.pkl', 'wb') as fid:
+    with open(sys.argv[-1]+'.sv_regression.pkl', 'wb') as fid:
         pickle.dump(sv, fid) 
-    with open(sys.argv[5]+'.gb_regression.pkl', 'wb') as fid:
+    with open(sys.argv[-1]+'.gb_regression.pkl', 'wb') as fid:
         pickle.dump(gb, fid) 
-    with open(sys.argv[5]+'.regression_ensemble.pkl', 'wb') as fid:
+    with open(sys.argv[-1]+'.regression_ensemble.pkl', 'wb') as fid:
         pickle.dump(ens, fid)     
     
         
