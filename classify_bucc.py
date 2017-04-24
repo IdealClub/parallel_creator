@@ -9,7 +9,7 @@ Created on Thu Apr 20 17:25:40 2017
 """
 Created on Mon Apr  3 10:34:32 2017
 
-Args: corpusA corpusB ctxA ctxB classifier
+Args: corpusA corpusB ctxA ctxB classifier second_length
 
 @author: vurga
 """
@@ -96,7 +96,7 @@ def extract_fea(tA, tB, l):
     return np.array([ngram_cosine_sims[2], ngram_cosine_sims[3], ngram_cosine_sims[4], ngram_cosine_sims[5], chars[0], chars[1], cognate_cosine_sims, l, tokens[0], tokens[1]])
 
     
-with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.argv[3]) as ctxA, open(sys.argv[4]) as ctxB:
+with open(sys.argv[1], 'r') as corpusA,  open(sys.argv[3]) as ctxA:
 
     with open(sys.argv[5], 'rb') as fid:
         model = pickle.load(fid)
@@ -104,24 +104,30 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
     while True:
         try:
             textA = next(corpusA)
-            textB = next(corpusB)
             contxA = next(ctxA)
-            contxB = next(ctxB)
-            
-            l = lf(textA, textB)
-            if l > .6329 and l < 1.0393:
-                cvec_1 = np.fromstring(contxA.strip(), sep=" ")
-                cvec_2 = np.fromstring(contxB.strip(), sep=" ")
-                sim = cosine_similarity(cvec_1, cvec_2)
-                feas = extract_fea(textA, textB, l)
-                feas_c = np.append(feas, sim)
-                
-                try:
-                    pred = model.predict(feas_c)
-                    with open(sys.argv[4]+'.class', 'a+') as target:
-                        target.write(str(pred)+'\n')
-                except:
-                    continue
+            with open(sys.argv[2], 'r') as corpusB, open(sys.argv[4]) as ctxB:
+                for j in range(int(sys.argv[6])):
+             
+                    textB = next(corpusB)
+                    contxB = next(ctxB)
+                    l = lf(textA, textB)
+                    if l > .6329 and l < 1.0393:
+                        cvec_1 = np.fromstring(contxA.strip(), sep=" ")
+                        cvec_2 = np.fromstring(contxB.strip(), sep=" ")
+                        sim = cosine_similarity(cvec_1, cvec_2)
+                        feas = extract_fea(textA, textB, l)
+                        feas_c = np.append(feas, sim)
+                        
+                        try:
+                            pred = model.predict(feas_c)
+                            with open(sys.argv[4]+'.class', 'a+') as target:
+                                target.write(str(pred)+'\n')
+                        except:
+                            continue
+                    else:
+                         with open(sys.argv[4]+'.class', 'a+') as target:
+                                target.write('[0]\n')
+               
                 
         except StopIteration:
             break
