@@ -169,7 +169,7 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                                 ens_pred = sv_pred
                             else:
                                 gb_pred = gb.predict(feas_c)
-                                ense_pred = gb_pred
+                                ens_pred = gb_pred
                             if ens_pred > .5:
                                 with open(sys.argv[5]+'.'+sys.argv[8]+'.rsim', 'a+') as target:
                                     target.write('%d %d %d %f \n' % (n, i, j, ens_pred))
