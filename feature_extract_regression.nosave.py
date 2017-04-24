@@ -149,9 +149,9 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                         feas = extract_fea(tA, tB)
                        
                         
-                        if sys.arv[8] == 'ctx':
+                        if sys.argv[8] == 'ctx':
                             feas_c = sim
-                        elif sys.arv[8] == 'all':
+                        elif sys.argv[8] == 'all':
                              ## compute cosine sim
                             feas_c = np.append(feas, sim)
                         else:
