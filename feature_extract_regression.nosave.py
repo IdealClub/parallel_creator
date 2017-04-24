@@ -147,8 +147,15 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                                 
                         ## extract all sx feas
                         feas = extract_fea(tA, tB)
-                        ## compute cosine sim
-                        feas_c = np.append(feas, sim)
+                       
+                        
+                        if sys.arv[8] == 'ctx':
+                            feas_c = sim
+                        elif sys.arv[8] == 'all':
+                             ## compute cosine sim
+                            feas_c = np.append(feas, sim)
+                        else:
+                            feas_c = feas
                         
                     else:
                         with open(sys.argv[5]+'.fea', 'r') as source:
@@ -157,7 +164,7 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                                 line = next(source)
                                 idx = int(line.strip().split()[0])
                             feas_c = np.fromstring(' '.join(line.strip().split()[1:]), sep=' ')
-                       
+                
 
                             
                     if sys.argv[7] == 'ens':
