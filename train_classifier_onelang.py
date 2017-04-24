@@ -10,6 +10,7 @@ import sys
 from sklearn.utils import shuffle
 from sklearn.cross_validation import KFold
 from sklearn import svm, ensemble, metrics
+import pickle
 
 
 def read_data(filename):
@@ -28,26 +29,26 @@ def train_and_xval(df, a="svm"):
         
     print('Model: '+a)
     
-    # 10-fold cross-validation
-    kf = KFold(df.shape[0], n_folds=10, random_state=1)
-    # train folds
-    predictions = []
-    for train, test in kf:
-        train_predictors = (df[predictors].iloc[train,:])
-        train_target = df['label'].iloc[train]
-        alg.fit(train_predictors, train_target)
-        test_predictions = alg.predict(df[predictors].iloc[test,:])
-        predictions.append(test_predictions)
-    # concatenate fold
-    predictions = np.concatenate(predictions, axis=0) 
-    
-    print('CV scores')
-    print('confusion matrix')
-    print(metrics.confusion_matrix(df['label'], predictions))
-    print('Pr')
-    print(metrics.precision_score(df['label'], predictions))
-    print('Re')
-    print(metrics.recall_score(df['label'], predictions))
+#    # 10-fold cross-validation
+#    kf = KFold(df.shape[0], n_folds=10, random_state=1)
+#    # train folds
+#    predictions = []
+#    for train, test in kf:
+#        train_predictors = (df[predictors].iloc[train,:])
+#        train_target = df['label'].iloc[train]
+#        alg.fit(train_predictors, train_target)
+#        test_predictions = alg.predict(df[predictors].iloc[test,:])
+#        predictions.append(test_predictions)
+#    # concatenate fold
+#    predictions = np.concatenate(predictions, axis=0) 
+#    
+#    print('CV scores')
+#    print('confusion matrix')
+#    print(metrics.confusion_matrix(df['label'], predictions))
+#    print('Pr')
+#    print(metrics.precision_score(df['label'], predictions))
+#    print('Re')
+#    print(metrics.recall_score(df['label'], predictions))
     
     ## train on whole data 
     alg.fit(df[predictors], df['label'])
@@ -79,14 +80,14 @@ def vote(classifiers, data):
     ens = ens.fit(data[predictors], data['label'])
     
     test_predictions = ens.predict(data[predictors])
-    
-    print('ensemble scores')
-    print('confusion matrix')
-    print(metrics.confusion_matrix(data['label'], test_predictions))
-    print('Pr')
-    print(metrics.precision_score(data['label'], test_predictions))
-    print('Re')
-    print(metrics.recall_score(data['label'], test_predictions))
+#    
+#    print('ensemble scores')
+#    print('confusion matrix')
+#    print(metrics.confusion_matrix(data['label'], test_predictions))
+#    print('Pr')
+#    print(metrics.precision_score(data['label'], test_predictions))
+#    print('Re')
+#    print(metrics.recall_score(data['label'], test_predictions))
     
     return ens
 
@@ -122,11 +123,13 @@ if __name__ == '__main__':
     ensemble_portion = int(len(X) * 0.1)
     training_data = shuffle(training_data, random_state=3)
     sv = train_and_xval(training_data[:training_portion], a="svm")
-    test(sv, training_data[training_portion:training_portion+test_portion])
+    #test(sv, training_data[training_portion:training_portion+test_portion])
     gb = train_and_xval(training_data[:training_portion], a="gb")
-    test(gb, training_data[training_portion:training_portion+test_portion])
+    #test(gb, training_data[training_portion:training_portion+test_portion])
     
     ens = vote([('svm',sv),('gradboost',gb)], training_data[-ensemble_portion:])
-    test(ens, training_data[training_portion:training_portion+test_portion])
+    #test(ens, training_data[training_portion:training_portion+test_portion])
         
+    with open('fr-en.pkl', 'wb') as fid:
+        pickle.dump(ens, fid)  
         
