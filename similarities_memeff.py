@@ -4,6 +4,8 @@ Created on Tue Feb 28 17:17:40 2017
 
 Calculates various similarity measures for sentence pairs.
 
+args: corpusA corpusB length_factors langA langB
+
 @author: Adam Varga
 """
 
@@ -95,15 +97,9 @@ def calculate(infile1, infile2, sdict, n=2):
 
     with open(infile1+'.fea','w') as target:
         target.write(',2-gram-cos,3-gram-cos,4-gram-cos,5-gram-cos,chars-1,chars-2,cognate-cos,length-factor,tokens-1,tokens-2\n')
-    
-    
-#    cognate_cosine_sims = []
-#    lfs = []
-#    tokens = []
-#    chars = []
-    
-    lang1 = infile1.split('.')[-2]
-    lang2 = infile2.split('.')[-2]
+
+    lang1 = sys.argv[4]
+    lang2 = sys.argv[5]
     
     i = 0
     with open(infile1, 'r') as source1, open(infile2, 'r') as source2:
