@@ -111,7 +111,7 @@ if __name__ == '__main__':
     X = read_data(sys.argv[1])
     y = read_data(sys.argv[2])
     
-    training_data = pd.concat((X, y), axis=1)
+    training_data = pd.concat((X, y), axis=1, ignore_index=True)
     training_data.columns = ['context-500k', 'label']
     
     original_test = shuffle(training_data[:37332], random_state=3)[32666:33599]
@@ -134,10 +134,7 @@ if __name__ == '__main__':
     test_ens([sv, gb], ens, training_data[training_portion:training_portion+test_portion])
     print("Original")
     test_ens([sv, gb], ens, original_test)
-    
-    
-    
-    
+   
     with open('sv_regression_cnt.pkl', 'wb') as fid:
         pickle.dump(sv, fid) 
     with open('gb_regression_cnt.pkl', 'wb') as fid:
