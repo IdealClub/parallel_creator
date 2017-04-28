@@ -116,6 +116,8 @@ if __name__ == '__main__':
     
     original_test = shuffle(training_data[:37332], random_state=3)[32666:33599]
     
+    training_data = training_data.dropna()
+    
     training_portion = int(len(training_data) * 0.875)
     test_portion = int(len(training_data) * 0.025)
     ensemble_portion = int(len(training_data) * 0.1)
