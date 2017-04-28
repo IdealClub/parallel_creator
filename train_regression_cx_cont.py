@@ -125,18 +125,18 @@ if __name__ == '__main__':
     training_data = shuffle(training_data, random_state=3)
     
     sv = train_and_xval(training_data[:training_portion], a="svm")
-    test(sv, training_data[training_portion:training_portion+test_portion])
-    print("Original")
-    test(sv, original_test)
+#    test(sv, training_data[training_portion:training_portion+test_portion])
+#    print("Original")
+#    test(sv, original_test)
     gb = train_and_xval(training_data[:training_portion], a="gb")
-    test(gb, training_data[training_portion:training_portion+test_portion])
-    print("Original")
-    test(gb, original_test)
+#    test(gb, training_data[training_portion:training_portion+test_portion])
+#    print("Original")
+#    test(gb, original_test)
     
     ens = vote([sv, gb], training_data[-ensemble_portion:])
-    test_ens([sv, gb], ens, training_data[training_portion:training_portion+test_portion])
-    print("Original")
-    test_ens([sv, gb], ens, original_test)
+#    test_ens([sv, gb], ens, training_data[training_portion:training_portion+test_portion])
+#    print("Original")
+#    test_ens([sv, gb], ens, original_test)
    
     with open('sv_regression_cnt.pkl', 'wb') as fid:
         pickle.dump(sv, fid) 
