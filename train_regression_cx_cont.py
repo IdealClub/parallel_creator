@@ -17,7 +17,7 @@ import pickle
 
 def read_data(filename):
     # Read csv to pandas dataframe
-    return pd.read_csv(filename, index_col=0, low_memory=False)
+    return pd.read_csv(filename, low_memory=False)
 
 def train_and_xval(df, a="svm"):
     
