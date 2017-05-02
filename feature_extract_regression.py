@@ -26,12 +26,16 @@ import pickle
 import re
 
 ## whether to save extrcted features for later reuse
-save_feas = sys.argv[6]
+
+if  sys.argv[6] == "True":
+    save_feas = True
+else:
+    save_feas = False
 
 with open(sys.argv[5]+'.'+sys.argv[8]+'.rsim', 'w'):
     pass
 if save_feas:
-    with open(sys.argv[5]+'.fea', 'w'):
+    with open(sys.argv[5]+'.'+sys.argv[8]+'.fea', 'w'):
         pass
 
 def cosine_sim(dictionary):
@@ -143,15 +147,21 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                         ## compute cosine sim
                         cvec_1 = np.fromstring(contxA[i].strip(), sep=" ")
                         cvec_2 = np.fromstring(contxB[j].strip(), sep=" ")
+                        ## compute cosine sim
                         sim = cosine_similarity(cvec_1, cvec_2)
                                 
                         ## extract all sx feas
                         feas = extract_fea(tA, tB)
-                        ## compute cosine sim
-                        feas_c = np.append(feas, sim)
+                        ## get appropriate feature set
+                        if sys.argv[8] == 'ctx':
+                            feas_c = sim
+                        elif sys.argv[8] == 'set':
+                            feas_c = feas
+                        else:
+                            feas_c = np.append(feas, sim)
                         
                     else:
-                        with open(sys.argv[5]+'.fea', 'r') as source:
+                        with open(sys.argv[5]+'.'+sys.argv[8]+'.fea', 'r') as source:
                             idx = None
                             while idx != i * j:
                                 line = next(source)
@@ -174,7 +184,7 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                                 with open(sys.argv[5]+'.'+sys.argv[8]+'.rsim', 'a+') as target:
                                     target.write('%d %d %d %f \n' % (n, i, j, ens_pred))
                                 if save_feas:
-                                    with open(sys.argv[5]+'.fea', 'a+') as target:
+                                    with open(sys.argv[5]+'.'+sys.argv[8]+'.fea', 'w') as target:
                                         target.write(str(i*j)+' '+' '.join([str(x) for x in feas_c])+' \n')
                             else:
                                 continue
