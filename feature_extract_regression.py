@@ -161,7 +161,7 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                             feas_c = np.append(feas, sim)
                         
                     else:
-                        with open(sys.argv[5]+'.'+sys.argv[8]+'.fea', 'r') as source:
+                        with open(sys.argv[5]+'.fea', 'r') as source:
                             idx = None
                             while idx != i * j:
                                 line = next(source)
