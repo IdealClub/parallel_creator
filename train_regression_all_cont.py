@@ -124,7 +124,7 @@ if __name__ == '__main__':
     training_data = pd.concat((X, y), axis=1, ignore_index=True)
     training_data.columns = ['context-500k', 'label']
     
-    training_data = pd.concat((sx_features, training_data), axis=1, ignore_index=True)
+    training_data = pd.concat([sx_features, training_data], axis=1, ignore_index=True)
     
     original_test = shuffle(training_data[:37332], random_state=3)[32666:33599]
     
