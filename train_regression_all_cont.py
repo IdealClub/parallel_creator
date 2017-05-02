@@ -127,14 +127,16 @@ if __name__ == '__main__':
     training_data = pd.concat([sx_features, training_data], axis=1, ignore_index=True)
     training_data.columns = ['2-gram-cos', '3-gram-cos', '4-gram-cos',  '5-gram-cos', 'chars-1', 'chars-2', 'cognate-cos', 'length-factor', 'tokens-1', 'tokens-2', 'context-500k', 'label']
     
-    training_data = training_data.dropna()
+    #training_data = training_data.fillna(0)
     training_data = training_data.convert_objects(convert_numeric=True)
+    training_data = training_data.fillna(0)
     original_test = shuffle(training_data[:37332], random_state=3)[32666:33599]
     
     training_portion = int(len(training_data) * 0.875)
     test_portion = int(len(training_data) * 0.025)
     ensemble_portion = int(len(training_data) * 0.1)
     training_data = shuffle(training_data, random_state=3)
+    print(training_data[training_data.isnull().any(axis=1)])
     
     sv = train_and_xval(training_data[:training_portion], a="svm")
     gb = train_and_xval(training_data[:training_portion], a="gb")
