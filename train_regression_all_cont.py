@@ -125,7 +125,7 @@ if __name__ == '__main__':
     training_data.columns = ['context-500k', 'label']
     
     training_data = pd.concat([sx_features, training_data], axis=1, ignore_index=True)
-    
+    training_data.columns = ['2-gram-cos', '3-gram-cos', '4-gram-cos',  '5-gram-cos', 'chars-1', 'chars-2', 'cognate-cos', 'length-factor', 'tokens-1', 'tokens-2', 'context-500k', 'label']
     original_test = shuffle(training_data[:37332], random_state=3)[32666:33599]
     
     training_data = training_data.dropna()
