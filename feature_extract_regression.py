@@ -35,7 +35,7 @@ else:
 with open(sys.argv[5]+'.'+sys.argv[8]+'.rsim', 'w'):
     pass
 if save_feas:
-    with open(sys.argv[5]+'.'+sys.argv[8]+'.fea', 'w'):
+    with open(sys.argv[5]+'.fea', 'w'):
         pass
 
 def cosine_sim(dictionary):
@@ -166,7 +166,14 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                             while idx != i * j:
                                 line = next(source)
                                 idx = int(line.strip().split()[0])
-                            feas_c = np.fromstring(' '.join(line.strip().split()[1:]), sep=' ')
+                            ## get appropriate feature set
+                            if sys.argv[8] == 'ctx':
+                                feas_c = np.fromstring(' '.join(line.strip().split()[-1]), sep=' ')
+                            elif sys.argv[8] == 'set':
+                                feas_c = np.fromstring(' '.join(line.strip().split()[:-1]), sep=' ')
+                            else:
+                                feas_c = np.fromstring(' '.join(line.strip().split()[1:]), sep=' ')
+
                        
                     try:
                             
@@ -184,7 +191,7 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                                 with open(sys.argv[5]+'.'+sys.argv[8]+'.rsim', 'a+') as target:
                                     target.write('%d %d %d %f \n' % (n, i, j, ens_pred))
                                 if save_feas:
-                                    with open(sys.argv[5]+'.'+sys.argv[8]+'.fea', 'w') as target:
+                                    with open(sys.argv[5]+'.fea', 'w') as target:
                                         target.write(str(i*j)+' '+' '.join([str(x) for x in feas_c])+' \n')
                             else:
                                 continue
