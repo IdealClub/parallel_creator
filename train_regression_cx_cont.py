@@ -62,20 +62,31 @@ def test(classifier, data):
     predictions = classifier.predict(data[predictors])
     class_predictions = []
     for p in predictions:
-        if p > .5:
+        if p > 2.5:
             class_predictions.append(1)
         else:
             class_predictions.append(0)
             
-    print('Test scores')
+    labels = []
+    for label in data['label']:
+        if label > 2.5:
+            labels.append(1)
+        else:
+            labels.append(0)
+            
+    print('Test scores (decision threshold 2.5)')
     print('confusion matrix')
-    print(metrics.confusion_matrix(data['label'], class_predictions))
+    print(metrics.confusion_matrix(labels, class_predictions))
     print('Pr')
-    print(metrics.precision_score(data['label'], class_predictions))
+    print(metrics.precision_score(labels, class_predictions))
     print('Re')
-    print(metrics.recall_score(data['label'], class_predictions))
+    print(metrics.recall_score(labels, class_predictions))
     print('F')
-    print(metrics.f1_score(data['label'], class_predictions))
+    print(metrics.f1_score(labels, class_predictions))
+    
+    print('MSE')
+    print(metrics.mean_squared_error(data['label'], predictions))
+    
     
 def test_ens(base_classifiers, ensemble, data):
     
@@ -115,34 +126,36 @@ if __name__ == '__main__':
     training_data.columns = ['context-500k', 'label']
     
     original_test = shuffle(training_data[:37332], random_state=3)[32666:33599]
-    
+    bucc_data = shuffle(training_data[:37332], random_state=3)[:32666]
     training_data = training_data.dropna()
-    training_data = training_data.convert_objects(convert_numeric=True)
     
     training_portion = int(len(training_data) * 0.875)
     test_portion = int(len(training_data) * 0.025)
     ensemble_portion = int(len(training_data) * 0.1)
-    training_data = shuffle(training_data, random_state=3)
+    training_data = shuffle(training_data, random_state=2)
     
-    sv = train_and_xval(training_data[:training_portion], a="svm")
+    #sv = train_and_xval(training_data[:training_portion], a="svm")
 #    test(sv, training_data[training_portion:training_portion+test_portion])
 #    print("Original")
 #    test(sv, original_test)
-    gb = train_and_xval(training_data[:training_portion], a="gb")
-#    test(gb, training_data[training_portion:training_portion+test_portion])
+    gb = train_and_xval(training_data, a="gb")
+    print('Original BUCC test set')
+    test(gb, original_test)
+    test(gb, training_data[training_portion:training_portion+test_portion])
+    
 #    print("Original")
 #    test(gb, original_test)
     
-    ens = vote([sv, gb], training_data[-ensemble_portion:])
+    #ens = vote([sv, gb], training_data[-ensemble_portion:])
 #    test_ens([sv, gb], ens, training_data[training_portion:training_portion+test_portion])
 #    print("Original")
 #    test_ens([sv, gb], ens, original_test)
    
-    with open('sv_regression_cnt.pkl', 'wb') as fid:
-        pickle.dump(sv, fid) 
-    with open('gb_regression_cnt.pkl', 'wb') as fid:
+   # with open('sv_regression_cnt.pkl', 'wb') as fid:
+   #     pickle.dump(sv, fid) 
+    with open('gb_regression_ctx_cnt.pkl', 'wb') as fid:
         pickle.dump(gb, fid) 
-    with open('regression_ensemble_cnt.pkl', 'wb') as fid:
-        pickle.dump(ens, fid)     
+    #with open('regression_ensemble_cnt.pkl', 'wb') as fid:
+    #    pickle.dump(ens, fid)     
     
         
