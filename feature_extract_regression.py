@@ -189,11 +189,11 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                             else:
                                 gb_pred = gb.predict(feas_c)
                                 ens_pred = gb_pred
-                            if ens_pred > .5:
+                            if ens_pred > 2.5:
                                 with open(sys.argv[5]+'.'+sys.argv[8]+'.rsim', 'a+') as target:
                                     target.write('%d %d %d %f \n' % (n, i, j, ens_pred))
                                 if save_feas:
-                                    with open(sys.argv[5]+'.fea', 'w') as target:
+                                    with open(sys.argv[5]+'.fea', 'a+') as target:
                                         target.write(str(i*j)+' '+' '.join([str(x) for x in feas_c])+' \n')
                             else:
                                 continue
