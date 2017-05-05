@@ -103,33 +103,36 @@ for extraction in extractions:
     index_a = 0
     index_b = 0
     for no in nos:
-            for i in range(article_id):
-                index_a += int(no.strip().split()[0])
-                index_b += int(no.strip().split()[1])
+        for i in range(article_id):
+            index_a += int(no.strip().split()[0])
+            index_b += int(no.strip().split()[1])
             
-            with open(sys.argv[2], 'r') as corpusA, open(sys.argv[3], 'r') as corpusB, open(sys.argv[4], 'r') as ctxA, open(sys.argv[5], 'r') as ctxB:
-                ## get to position
-                for i in range(index_a):
-                    l_a = next(corpusA)
-                    c_a = next(ctxA)
-                for i in range(index_b):
-                    l_b = next(corpusB)
-                    c_b = next(ctxB)
-                
-            
-            ## compute cosine sim
-            cvec_1 = np.fromstring(c_a.strip(), sep=" ")
-            cvec_2 = np.fromstring(c_b.strip(), sep=" ")
-            ## compute cosine sim
-            sim = cosine_similarity(cvec_1, cvec_2)
-                                
-            ## extract all sx feas
-            feas = extract_fea(l_a, l_b)
-            feas_c = np.append(sim, feas)
-            
-            with open(sys.argv[6]+'.srank', 'a+') as target:
-                score = np.mean(feas_c[:-1]) * feas[-1]
-                target.write(str(score) + '\n')
-            
+    with open(sys.argv[2], 'r') as corpusA, open(sys.argv[3], 'r') as corpusB, open(sys.argv[4], 'r') as ctxA, open(sys.argv[5], 'r') as ctxB:
+        ## get to position
+        for i in range(index_a):
+            l_a = next(corpusA)
+            c_a = next(ctxA)
+        for i in range(index_b):
+            l_b = next(corpusB)
+            c_b = next(ctxB)
+        
+    
+    ## compute cosine sim
+    cvec_1 = np.fromstring(c_a.strip(), sep=" ")
+    cvec_2 = np.fromstring(c_b.strip(), sep=" ")
+    ## compute cosine sim
+    sim = cosine_similarity(cvec_1, cvec_2)
+                        
+    ## extract all sx feas
+    feas = extract_fea(l_a, l_b)
+    feas_c = np.append(sim, feas)
+    
+    with open(sys.argv[6]+'.srank', 'a+') as target:
+        try:
+            score = np.mean(feas_c[:-1]) * feas[-1]
+        except:
+            score = 0.0
+        target.write(str(score) + '\n')
+    
         
     
