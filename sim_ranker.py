@@ -96,9 +96,9 @@ with open(sys.argv[6]+'.srank', 'w'):
      pass
 
 for extraction in extractions:
-    article_id = extraction.strip().split()[0]
-    a_id = extraction.strip().split()[1]
-    b_id = extraction.strip().split()[2]
+    article_id = int(extraction.strip().split()[0])
+    a_id = int(extraction.strip().split()[1])
+    b_id = int(extraction.strip().split()[2])
 
     index_a = 0
     index_b = 0
