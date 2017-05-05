@@ -103,7 +103,7 @@ for extraction in extractions:
     index_a = 0
     index_b = 0
     for no in nos:
-            if int(no.strip().split()[0]) != article_id:
+            for i in range(article_id):
                 index_a += int(no.strip().split()[1])
                 index_b += int(no.strip().split()[2])
             else:
