@@ -102,17 +102,17 @@ for extraction in extractions:
 
     index_a = 0
     index_b = 0
-    for no in nos:
+    for no in nos[:article_id]:
         for i in range(article_id):
             index_a += int(no.strip().split()[0])
             index_b += int(no.strip().split()[1])
             
     with open(sys.argv[2], 'r') as corpusA, open(sys.argv[3], 'r') as corpusB, open(sys.argv[4], 'r') as ctxA, open(sys.argv[5], 'r') as ctxB:
         ## get to position
-        for i in range(index_a):
+        for i in range(index_a + a_id):
             l_a = next(corpusA)
             c_a = next(ctxA)
-        for i in range(index_b):
+        for i in range(index_b + b_id):
             l_b = next(corpusB)
             c_b = next(ctxB)
         
