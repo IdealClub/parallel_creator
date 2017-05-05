@@ -104,8 +104,8 @@ for extraction in extractions:
     index_b = 0
     for no in nos:
             for i in range(article_id):
-                index_a += int(no.strip().split()[1])
-                index_b += int(no.strip().split()[2])
+                index_a += int(no.strip().split()[0])
+                index_b += int(no.strip().split()[1])
             else:
                 index_a += a_id
                 index_b += b_id
