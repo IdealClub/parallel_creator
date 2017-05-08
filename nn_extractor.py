@@ -7,6 +7,9 @@ Created on Fri May  5 08:35:53 2017
 
 import tensorflow as tf
 import numpy as np
+import sys
+from sklearn.utils import shuffle
+import pandas as pd
 
 RANDOM_SEED = 52
 tf.set_random_seed(RANDOM_SEED)
@@ -48,19 +51,24 @@ def read_data(file):
 if __name__ == '__main__':
     
     ## get data here
-    data_X_a = read_data('bucc.enen.cvx')
-    data_X_b = read_data('bucc.frde.cvx')
-    data_y = np.concatenate((np.repeat(1, 10), np.repeat(0, 10), np.repeat(1, 10), np.repeat(0, 10)))
-    data_y = np.concatenate((np.tile([1, 0], (10, 1)), np.tile([0, 1], (10, 1)), np.tile([1, 0], (10, 1)), np.tile([0, 1], (10, 1))))
+    data_X_a = read_data(sys.argv[1])
+    data_X_b = read_data(sys.argv[2])
+    data_y = np.concatenate((np.tile([1, 0], (int(len(data_X_a)/2), 1)), np.tile([0, 1], (int(len(data_X_a)/2), 1)), np.tile([1, 0], (int(len(data_X_b)/2), 1)), np.tile([0, 1], (int(len(data_X_b)/2), 1))))
  
+    ## paste & shuffle
+    full_data = np.concatenate((data_X_a, data_X_b, data_y), axis=1)
+    full_data = shuffle(full_data, random_state=3)
+    
     ## join a & b: first, simple concatenation
-    train_X = np.concatenate((data_X_a, data_X_b))[:30]
-    train_y = data_y[:30]
+    training_portion = int(len(full_data) * 0.875)
+    test_portion = int(len(full_data) * 0.025)
     
-    test_X = np.concatenate((data_X_a, data_X_b))[30:]
-    test_y = data_y[30:]
-    ## shuffle
+    train_X = full_data[:training_portion,[0,1]]
+    train_y = full_data[:training_portion,2]
     
+    test_X = full_data[training_portion:training_portion+test_portion,[0,1]]
+    test_y = full_data[training_portion:training_portion+test_portion,2]
+  
     ## layer sizes
     n_input = train_X.shape[1] ## number of input neurons
     n_hidden = 256 ## hidden layer size
