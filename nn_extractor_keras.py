@@ -49,7 +49,7 @@ if __name__ == '__main__':
     
     ## layer sizes
     n_input = data_X.shape[1] ## number of input neurons
-    n_hidden = 1024 ## hidden layer size
+    n_hidden = 2048 ## hidden layer size
     n_output = data_y.shape[1] ## number of labels
     
     train_X = full_data[:training_portion,:n_input]
