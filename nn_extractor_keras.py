@@ -37,7 +37,8 @@ if __name__ == '__main__':
     ## subtraction
     data_X_sub = data_X_a - data_X_b
     
-    data_X = np.concatenate((data_X_conc, data_X_mult, data_X_sub), axis=1)
+    #data_X = np.concatenate((data_X_conc, data_X_mult, data_X_sub), axis=1)
+    data_X = data_X_mult
     
     ## paste & shuffle
     full_data = np.concatenate((data_X, data_y), axis=1)
