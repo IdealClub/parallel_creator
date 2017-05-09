@@ -75,7 +75,7 @@ if __name__ == '__main__':
     
     # show the accuracy on the testing set
     test_preds = np.argmax(model.predict(test_X), axis=1)
-    print(test_preds)
+    test_y = np.argmax(test_y, axis=1)
     print(sklearn.metrics.precision_score(test_preds, test_y))
     print(sklearn.metrics.recall_score(test_preds, test_y))
     print(sklearn.metrics.f1_score(test_preds, test_y))
