@@ -63,17 +63,18 @@ if __name__ == '__main__':
     model = keras.models.Sequential()
     model.add(keras.layers.Dense(n_hidden, input_dim=n_input, init="uniform", activation="sigmoid"))
     #model.add(keras.layers.Dense(384, init="uniform", activation="relu"))
-    model.add(keras.layers.Dense(2))
+    model.add(keras.layers.Dense(n_output))
     model.add(keras.layers.Activation("softmax"))
     
     # train the model using SGD
     print("[INFO] compiling model...")
-    sgd = keras.optimizers.Adagrad(lr=learning_rate)
-    model.compile(loss="binary_crossentropy", optimizer=sgd, metrics=['accuracy'])
-    model.fit(train_X, train_y, nb_epoch=15, batch_size=32)
+    opt = keras.optimizers.Adagrad(lr=learning_rate)
+    model.compile(loss="categorical_crossentropy", optimizer=opt, metrics=['accuracy'])
+    model.fit(train_X, train_y, nb_epoch=5, batch_size=32)
     
     # show the accuracy on the testing set
     test_preds = model.predict(test_X)
+    print(test_preds)
     print(sklearn.metrics.precision_score(test_preds, test_y))
     print(sklearn.metrics.recall_score(test_preds, test_y))
     print(sklearn.metrics.f1_score(test_preds, test_y))
