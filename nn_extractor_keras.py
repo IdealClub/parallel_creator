@@ -63,7 +63,7 @@ if __name__ == '__main__':
     # define the architecture of the network
     model = keras.models.Sequential()
     model.add(keras.layers.Dense(n_hidden, input_dim=n_input, init="uniform", activation="sigmoid"))
-    model.add(keras.layers.Dense(n_hidden/2, init="uniform", activation="sigmoid"))
+    model.add(keras.layers.Dense(int(n_hidden/2), init="uniform", activation="sigmoid"))
     model.add(keras.layers.Dense(n_output))
     model.add(keras.layers.Activation("softmax"))
     
