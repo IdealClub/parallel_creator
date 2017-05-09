@@ -49,7 +49,7 @@ if __name__ == '__main__':
     
     ## layer sizes
     n_input = data_X.shape[1] ## number of input neurons
-    n_hidden = 4096 ## hidden layer size
+    n_hidden = 2048 ## hidden layer size
     n_output = data_y.shape[1] ## number of labels
     
     train_X = full_data[:training_portion,:n_input]
@@ -63,7 +63,7 @@ if __name__ == '__main__':
     # define the architecture of the network
     model = keras.models.Sequential()
     model.add(keras.layers.Dense(n_hidden, input_dim=n_input, init="uniform", activation="sigmoid"))
-    #model.add(keras.layers.Dense(384, init="uniform", activation="relu"))
+    model.add(keras.layers.Dense(n_hidden, init="uniform", activation="sigmoid"))
     model.add(keras.layers.Dense(n_output))
     model.add(keras.layers.Activation("softmax"))
     
