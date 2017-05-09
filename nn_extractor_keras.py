@@ -58,7 +58,7 @@ if __name__ == '__main__':
     test_X = full_data[training_portion:training_portion+test_portion,:n_input]
     test_y = full_data[training_portion:training_portion+test_portion,n_input:]
     
-    learning_rate = 0.01
+    learning_rate = 0.001
     
     # define the architecture of the network
     model = keras.models.Sequential()
