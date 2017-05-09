@@ -58,12 +58,12 @@ if __name__ == '__main__':
     test_X = full_data[training_portion:training_portion+test_portion,:n_input]
     test_y = full_data[training_portion:training_portion+test_portion,n_input:]
     
-    learning_rate = 0.0001
+    learning_rate = 0.001
     
     # define the architecture of the network
     model = keras.models.Sequential()
-    model.add(keras.layers.Dense(n_hidden, input_dim=n_input, init="uniform", activation="sigmoid"))
-    model.add(keras.layers.Dense(n_hidden, init="uniform", activation="sigmoid"))
+    model.add(keras.layers.Dense(n_hidden, input_dim=n_input, init="uniform", activation="relu"))
+    #model.add(keras.layers.Dense(n_hidden, init="uniform", activation="sigmoid"))
     model.add(keras.layers.Dense(n_output))
     model.add(keras.layers.Activation("softmax"))
     
