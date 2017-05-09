@@ -37,8 +37,8 @@ if __name__ == '__main__':
     ## subtraction
     data_X_sub = data_X_a - data_X_b
     
-    #data_X = np.concatenate((data_X_conc, data_X_mult, data_X_sub), axis=1)
-    data_X = data_X_mult
+    data_X = np.concatenate((data_X_conc, data_X_mult, data_X_sub), axis=1)
+    #data_X = data_X_mult
     
     ## paste & shuffle
     full_data = np.concatenate((data_X, data_y), axis=1)
@@ -58,7 +58,7 @@ if __name__ == '__main__':
     test_X = full_data[training_portion:training_portion+test_portion,:n_input]
     test_y = full_data[training_portion:training_portion+test_portion,n_input:]
     
-    learning_rate = 0.1
+    learning_rate = 0.01
     
     # define the architecture of the network
     model = keras.models.Sequential()
@@ -71,10 +71,10 @@ if __name__ == '__main__':
     print("[INFO] compiling model...")
     opt = keras.optimizers.Adagrad(lr=learning_rate)
     model.compile(loss="categorical_crossentropy", optimizer=opt, metrics=['accuracy'])
-    model.fit(train_X, train_y, nb_epoch=5, batch_size=32)
+    model.fit(train_X, train_y, nb_epoch=15, batch_size=32)
     
     # show the accuracy on the testing set
-    test_preds = model.predict(test_X)
+    test_preds = np.argmax(model.predict(test_X), axis=1)
     print(test_preds)
     print(sklearn.metrics.precision_score(test_preds, test_y))
     print(sklearn.metrics.recall_score(test_preds, test_y))
