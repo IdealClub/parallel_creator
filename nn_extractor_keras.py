@@ -69,10 +69,11 @@ if __name__ == '__main__':
     # train the model using SGD
     print("[INFO] compiling model...")
     sgd = keras.optimizers.Adagrad(lr=learning_rate)
-    model.compile(loss="binary_crossentropy", optimizer=sgd, metrics=['binary_accuracy', 'fmeasure', 'precision', 'recall'])
+    model.compile(loss="binary_crossentropy", optimizer=sgd, metrics=['accuracy'])
     model.fit(train_X, train_y, nb_epoch=15, batch_size=32)
     
     # show the accuracy on the testing set
-    print("[INFO] evaluating on testing set...")
-    (loss, accuracy, f, pr, re) = model.evaluate(test_X, test_y, batch_size=128, verbose=1)
-    print(loss, accuracy, f, pr, re)
+    test_preds = model.predict(test_X)
+    print(sklearn.metrics.precision_score(test_preds, test_y))
+    print(sklearn.metrics.recall_score(test_preds, test_y))
+    print(sklearn.metrics.f1_score(test_preds, test_y))
