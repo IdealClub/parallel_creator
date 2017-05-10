@@ -60,7 +60,8 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                     feas = np.concatenate((feas_conc, feas_mult, feas_subt))
                         
                     if True:
-                        pred = model.predict(feas.reshape(1, 4096))[1]
+                        pred = model.predict(feas.reshape(1, 4096))
+                        print(pred)
                         if pred > .5:
                             with open(sys.argv[5]+'.nnsim', 'a+') as target:
                                 target.write('%d %d %d %f \n' % (n, i, j, pred))
