@@ -57,7 +57,7 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                     feas_conc = np.concatenate((cvec_1, cvec_2))
                     feas_mult = np.multiply(cvec_1, cvec_2)
                     feas_subt = cvec_1 - cvec_2
-                    feas = np.concatenate((feas_conc, feas_mult, feas_subt))
+                    feas = np.concatenate((feas_conc, feas_mult, feas_subt)).T
                         
                     if True:
                         pred = model.predict(feas)[1]
