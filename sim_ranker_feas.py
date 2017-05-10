@@ -26,6 +26,6 @@ for line in lines:
     ctx = float(line.strip().split()[8])
     lf = float(line.strip().split()[7])
     
-    score = n1 * n2 * n3 * n4 * n5 * cog * ctx / 7
+    score = n1 + n2 + n3 + n4 + n5 + cog + ctx / 7
     with open(sys.argv[1]+'.srank', 'a+') as target:
         target.write(str(score)+'\n')
