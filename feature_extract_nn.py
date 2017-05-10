@@ -57,10 +57,10 @@ with open(sys.argv[1], 'r') as corpusA, open(sys.argv[2]) as corpusB, open(sys.a
                     feas_conc = np.concatenate((cvec_1, cvec_2))
                     feas_mult = np.multiply(cvec_1, cvec_2)
                     feas_subt = cvec_1 - cvec_2
-                    feas = np.concatenate((feas_conc, feas_mult, feas_subt)).T
+                    feas = np.concatenate((feas_conc, feas_mult, feas_subt))
                         
                     if True:
-                        pred = model.predict(feas)[1]
+                        pred = model.predict(feas.T)[1]
                         if pred > .5:
                             with open(sys.argv[5]+'.nnsim', 'a+') as target:
                                 target.write('%d %d %d %f \n' % (n, i, j, pred))
