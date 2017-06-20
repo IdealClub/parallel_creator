@@ -81,7 +81,10 @@ for i, s_line in enumerate(s_lines):
         g4= char_ngram(s_line, t_line, 4)
         g5 = char_ngram(s_line, t_line, 5)
         cg = cognate(s_line, t_line)
-        av = (g2 + g3 + g4 + g5 + cg) / 5
+        try:
+            av = (g2 + g3 + g4 + g5 + cg) / 5
+        except:
+            av = 0.0
         with open(sys.argv[4], 'a+') as target:
             try:
                 target.write(str(g2)+' '+str(g3)+' '+str(g4)+' '+str(g5)+' '+str(cg)+' '+str(av)+' \n')
