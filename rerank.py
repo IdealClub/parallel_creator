@@ -83,8 +83,10 @@ for i, s_line in enumerate(s_lines):
         cg = cognate(s_line, t_line)
         av = (g2 + g3 + g4 + g5 + cg) / 5
         with open(sys.argv[4], 'a+') as target:
-            target.write(str(g2)+' '+str(g3)+' '+str(g4)+' '+str(g5)+' '+str(cg)+' '+str(av)+' \n')
-            
+            try:
+                target.write(str(g2)+' '+str(g3)+' '+str(g4)+' '+str(g5)+' '+str(cg)+' '+str(av)+' \n')
+            except:
+                target.write('0 0 0 0 0 0 \n') 
         
     
 
