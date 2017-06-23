@@ -11,6 +11,11 @@ import math
 import unicodedata
 import string
 
+def lf(line1, line2):
+
+    return math.exp(-.5*((((len(line2)/len(line1))-1.133)/.415))**2)
+
+
 def strip_accents(s):
    return ''.join(c for c in unicodedata.normalize('NFD', s)
                   if unicodedata.category(c) != 'Mn')
@@ -81,15 +86,16 @@ for i, s_line in enumerate(s_lines):
         g4= char_ngram(s_line, t_line, 4)
         g5 = char_ngram(s_line, t_line, 5)
         cg = cognate(s_line, t_line)
+        l = lf(s_line, t_line)
         try:
-            av = (g2 + g3 + g4 + g5 + cg) / 5
+            av = l * ((g2 + g3 + g4 + g5 + cg) / 5)
         except:
             av = 0.0
         with open(sys.argv[4], 'a+') as target:
             try:
-                target.write(str(g2)+' '+str(g3)+' '+str(g4)+' '+str(g5)+' '+str(cg)+' '+str(av)+' \n')
+                target.write(str(g2)+' '+str(g3)+' '+str(g4)+' '+str(g5)+' '+str(cg)+' '+str(l)+' '+str(av)+' \n')
             except:
-                target.write('0 0 0 0 0 0 \n') 
+                target.write('0 0 0 0 0 0 0 \n') 
         
     
 
