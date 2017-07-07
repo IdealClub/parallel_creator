@@ -29,12 +29,12 @@ def compare_snt(a, b, max_overlap=.65):
     a = re.sub("""(['\-`"])([^ ])""", "\\1 \\2", re.sub("""([^ ])(['\-`"])""", "\\1 \\2", a))
     b = re.sub("""(['\-`"])([^ ])""", "\\1 \\2", re.sub("""([^ ])(['\-`"])""", "\\1 \\2", b))
     
-    translator = str.maketrans('', '', string.punctuation)
+    translator = str.maketrans('', '', string.punctuation+'-')
     a = a.translate(translator).lower()
     b = b.translate(translator).lower()
       
-    a = [w for w in a.split() if w not in stopwords.words()]
-    b = [w for w in b.split() if w not in stopwords.words()]
+    a = [w for w in a.split() if w not in stopwords.words() and not w.isnumeric()]
+    b = [w for w in b.split() if w not in stopwords.words() and not w.isnumeric()]
     
     #print(a, b)
     
