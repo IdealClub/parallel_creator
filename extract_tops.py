@@ -19,26 +19,26 @@ with open(sys.argv[1], 'r') as source:
 def compare_snt(a, b, lan1, lan2):
     
     for ch in a:
-        if ch in set(["\\", "="]):
+        if ch in set(["\\", "=", "+", "/", "}", "_", "→"]):
             return False
         
     for ch in b:
-        if ch in set(["\\", "="]):
+        if ch in set(["\\", "=", "+", "/", "}", "_", "→"]):
             return False
     
-    #if re.match("\\\\|=", a) or re.match("\\\\|=", b):
-    #    return False
+    a = re.sub("""(['\-`"])([^ ])""", "\\1 \\2", re.sub("""([^ ])(['\-`"])""", "\\1 \\2", a))
+    b = re.sub("""(['\-`"])([^ ])""", "\\1 \\2", re.sub("""([^ ])(['\-`"])""", "\\1 \\2", b))
     
     translator = str.maketrans('', '', string.punctuation)
     a = a.translate(translator).lower()
     b = b.translate(translator).lower()
-    
+      
     a = [w for w in a.split() if w not in stopwords.words()]
     b = [w for w in b.split() if w not in stopwords.words()]
     
     #print(a, b)
     
-    if editdistance.eval(a, b) > 3:
+    if 1 - (editdistance.eval(a, b) / max(len(a), len(b))) < .9:
         return True
     return False
     
