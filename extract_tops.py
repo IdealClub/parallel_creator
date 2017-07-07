@@ -60,7 +60,7 @@ while i < sys.argv[1] and r < len(ranks):
         a_len_dict[split_id] = lengths_a
         b_len_dict[split_id] = lengths_b
          
-        with open(sys.argv[3]) as source_a, open(sys.argv[4]) as source_b:
+        with open(sys.argv[3], 'r') as source_a, open(sys.argv[4], 'r') as source_b:
             a_corp_dict[split_id] = source_a.readlines()
             b_corp_dict[split_id] = source_b.readlines()
             
