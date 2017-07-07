@@ -39,7 +39,7 @@ def compare_snt(a, b, lan1, lan2):
     
 i = 0
 r = 0
-while i < sys.argv[1] and r < len(ranks):
+while i < int(sys.argv[2]) and r < len(ranks):
     
     rank_line = ranks[r].strip().split()
     split_id = rank_line[-1]
