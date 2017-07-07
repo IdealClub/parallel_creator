@@ -4,7 +4,7 @@ Created on Fri Jul  7 15:27:55 2017
 
 Extract top-K sentence pairs with filtering out identical and noisy pairs.
 
-Command-line args: <ranking file> <topK> <corpus-A> <corpus-B> <article nos> <lang1> <lang2>
+Command-line args: <ranking file> <topK> <corpus-A> <corpus-B> <article nos> [<max-overlap>]
 @author: vurga
 """
 
@@ -16,7 +16,7 @@ with open(sys.argv[1], 'r') as source:
 
 
 
-def compare_snt(a, b, lan1, lan2):
+def compare_snt(a, b, max_overlap=.65):
     
     for ch in a:
         if ch in set(["\\", "=", "+", "/", "}", "_", "→"]):
@@ -38,7 +38,7 @@ def compare_snt(a, b, lan1, lan2):
     
     #print(a, b)
     
-    if (len(a) or len(b)) and (1 - (editdistance.eval(a, b) / max(len(a), len(b))) < .8):
+    if (len(a) or len(b)) and (1 - (editdistance.eval(a, b) / max(len(a), len(b))) < max_overlap):
         print(a, b)
         print(editdistance.eval(a, b) / max(len(a), len(b)))
         return True
@@ -86,7 +86,7 @@ while i < int(sys.argv[2]) and r < len(ranks):
     sentence_b = b_corp_dict[split_id][start_b+snt_b]
     
     ## compare
-    if compare_snt(sentence_a, sentence_b, sys.argv[6], sys.argv[7]):
+    if compare_snt(sentence_a, sentence_b, float(sys.argv[7])):
         i += 1
         sys.stdout.write(sentence_a+" \n")
         sys.stdout.write(sentence_b+" \n")
