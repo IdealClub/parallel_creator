@@ -86,7 +86,7 @@ while i < int(sys.argv[2]) and r < len(ranks):
     sentence_b = b_corp_dict[split_id][start_b+snt_b]
     
     ## compare
-    if compare_snt(sentence_a, sentence_b, float(sys.argv[7])):
+    if compare_snt(sentence_a, sentence_b, float(sys.argv[6])):
         i += 1
         sys.stdout.write(sentence_a+" \n")
         sys.stdout.write(sentence_b+" \n")
