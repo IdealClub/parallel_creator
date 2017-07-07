@@ -10,6 +10,7 @@ Command-line args: <ranking file> <topK> <corpus-A> <corpus-B> <article nos> [<m
 
 import sys, string, editdistance, re
 from nltk.corpus import stopwords
+from langdetect import detect
 
 with open(sys.argv[1], 'r') as source:
     ranks = source.readlines()
@@ -17,6 +18,9 @@ with open(sys.argv[1], 'r') as source:
 
 
 def compare_snt(a, b, max_overlap=.65):
+    
+    if detect(a) == detect(b):
+        return False
     
     for ch in a:
         if ch in set(["\\", "=", "+", "/", "}", "_", "→"]):
@@ -29,7 +33,7 @@ def compare_snt(a, b, max_overlap=.65):
     a = re.sub("""(['\-`"])([^ ])""", "\\1 \\2", re.sub("""([^ ])(['\-`"])""", "\\1 \\2", a))
     b = re.sub("""(['\-`"])([^ ])""", "\\1 \\2", re.sub("""([^ ])(['\-`"])""", "\\1 \\2", b))
     
-    translator = str.maketrans('', '', string.punctuation+'-')
+    translator = str.maketrans('', '', string.punctuation+'-'+'–')
     a = a.translate(translator).lower()
     b = b.translate(translator).lower()
       
