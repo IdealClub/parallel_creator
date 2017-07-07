@@ -45,7 +45,7 @@ def compare_snt(a, b, max_overlap=.65):
     
     #print(a, b)
     
-    if (len(a) > 3 and len(b) > 3) and (1 - (editdistance.eval(a, b) / max(len(a), len(b))) < max_overlap):
+    if (len(a) > 5 and len(b) > 5) and (1 - (editdistance.eval(a, b) / max(len(a), len(b))) < max_overlap):
         print(a, b)
         print(editdistance.eval(a, b) / max(len(a), len(b)))
         return True
