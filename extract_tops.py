@@ -17,7 +17,7 @@ with open(sys.argv[1], 'r') as source:
 
 
 
-def compare_snt(a, b, max_overlap=.65, lan1, lan2):
+def compare_snt(a, b, max_overlap=.65, lan1="en", lan2="es"):
     
     try:
         if detect(a) != lan1 or detect(b) != lan2:
