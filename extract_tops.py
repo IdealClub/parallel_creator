@@ -45,7 +45,7 @@ r = 0
 while i < int(sys.argv[2]) and r < len(ranks):
     
     rank_line = ranks[r].strip().split()
-    split_id = rank_line[-1]
+    split_id = int(rank_line[-1])
     
     article = int(rank_line[0])
     snt_a = int(rank_line[1])
@@ -70,14 +70,14 @@ while i < int(sys.argv[2]) and r < len(ranks):
     start_a = sum(a_len_dict[split_id][:article])
     start_b = sum(b_len_dict[split_id][:article])
     
-    snt_a = a_corp_dict[split_id][start_a+snt_a]
-    snt_b = b_corp_dict[split_id][start_b+snt_b]
+    sentence_a = a_corp_dict[split_id][start_a+snt_a]
+    sentence_b = b_corp_dict[split_id][start_b+snt_b]
     
     ## compare
-    if compare_snt(snt_a, snt_b, sys.argv[6], sys.argv[7]):
+    if compare_snt(sentence_a, sentence_b, sys.argv[6], sys.argv[7]):
         i += 1
-        sys.stdout.write(snt_a+" \n")
-        sys.stdout.write(snt_b+" \n")
+        sys.stdout.write(sentence_a+" \n")
+        sys.stdout.write(sentence_b+" \n")
         sys.stdout.write("\n")
         
     r += 1
