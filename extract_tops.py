@@ -46,8 +46,8 @@ def compare_snt(a, b, max_overlap=.65, lan1="en", lan2="es"):
     #print(a, b)
     
     if (len(a) > 5 and len(b) > 5) and (1 - (editdistance.eval(a, b) / max(len(a), len(b))) < max_overlap):
-        print(a, b)
-        print(editdistance.eval(a, b) / max(len(a), len(b)))
+        #print(a, b)
+        #print(editdistance.eval(a, b) / max(len(a), len(b)))
         return True
     return False
     
@@ -95,7 +95,7 @@ while i < int(sys.argv[2]) and r < len(ranks):
     ## compare
     if compare_snt(sentence_a, sentence_b, float(sys.argv[6]), sys.argv[7], sys.argv[8]):
         i += 1
-        sys.stdout.write(sentence_a+" \t"+sentence_b)
+        sys.stdout.write(sentence_a.strip()+"\t"+sentence_b.strip())
         
     r += 1
     
