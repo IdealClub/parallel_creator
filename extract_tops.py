@@ -19,8 +19,11 @@ with open(sys.argv[1], 'r') as source:
 
 def compare_snt(a, b, max_overlap=.65):
     
-    if detect(a) == detect(b):
-        return False
+    try:
+        if detect(a) == detect(b):
+            return False
+    except:
+        pass
     
     for ch in a:
         if ch in set(["\\", "=", "+", "/", "}", "_", "→"]):
