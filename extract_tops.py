@@ -36,9 +36,9 @@ def compare_snt(a, b, lan1, lan2):
     a = [w for w in a.split() if w not in stopwords.words()]
     b = [w for w in b.split() if w not in stopwords.words()]
     
-    print(a, b)
+    #print(a, b)
     
-    if editdistance.eval(a, b) > 2:
+    if editdistance.eval(a, b) > 3:
         return True
     return False
     
