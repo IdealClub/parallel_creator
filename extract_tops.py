@@ -4,7 +4,7 @@ Created on Fri Jul  7 15:27:55 2017
 
 Extract top-K sentence pairs with filtering out identical and noisy pairs.
 
-Command-line args: <ranking file> <topK> <corpus-A> <corpus-B> <article nos> [<max-overlap>]
+Command-line args: <ranking file> <topK> <corpus-A> <corpus-B> <article nos> [<max-overlap>] <lan1> <lan2>
 @author: vurga
 """
 
@@ -17,20 +17,20 @@ with open(sys.argv[1], 'r') as source:
 
 
 
-def compare_snt(a, b, max_overlap=.65):
+def compare_snt(a, b, max_overlap=.65, lan1, lan2):
     
     try:
-        if detect(a) == detect(b):
+        if detect(a) != lan1 or detect(b) != lan2:
             return False
     except:
         pass
     
     for ch in a:
-        if ch in set(["\\", "=", "+", "/", "}", "_", "→"]):
+        if ch in set(["\\", "=", "+", "/", "}", "_", "→", "|"]):
             return False
         
     for ch in b:
-        if ch in set(["\\", "=", "+", "/", "}", "_", "→"]):
+        if ch in set(["\\", "=", "+", "/", "}", "_", "→", "|"]):
             return False
     
     a = re.sub("""(['\-`"])([^ ])""", "\\1 \\2", re.sub("""([^ ])(['\-`"])""", "\\1 \\2", a))
@@ -93,7 +93,7 @@ while i < int(sys.argv[2]) and r < len(ranks):
     sentence_b = b_corp_dict[split_id][start_b+snt_b]
     
     ## compare
-    if compare_snt(sentence_a, sentence_b, float(sys.argv[6])):
+    if compare_snt(sentence_a, sentence_b, float(sys.argv[6]), sys.argv[7], sys.argv[8]):
         i += 1
         sys.stdout.write(sentence_a+" \n")
         sys.stdout.write(sentence_b+" \n")
