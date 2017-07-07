@@ -8,7 +8,7 @@ Command-line args: <ranking file> <topK> <corpus-A> <corpus-B> <article nos> <la
 @author: vurga
 """
 
-import sys, string, editdistance
+import sys, string, editdistance, re
 from nltk.corpus import stopwords
 
 with open(sys.argv[1], 'r') as source:
@@ -21,6 +21,9 @@ a_corp_dict = dict()
 b_corp_dict = dict()
 
 def compare_snt(a, b, lan1, lan2):
+    
+    if re.match("\\\\|=", a) or re.match("\\\\|=", b):
+        return False
     
     a = a.translate(None, string.punctuation).lower()
     b = b.translate(None, string.punctuation).lower()
