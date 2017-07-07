@@ -38,7 +38,7 @@ def compare_snt(a, b, lan1, lan2):
     
     #print(a, b)
     
-    if (len(a) or len(b)) and (1 - (editdistance.eval(a, b) / max(len(a), len(b))) < .9):
+    if (len(a) or len(b)) and (1 - (editdistance.eval(a, b) / max(len(a), len(b))) < .8):
         print(a, b)
         print(editdistance.eval(a, b) / max(len(a), len(b)))
         return True
