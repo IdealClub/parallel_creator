@@ -76,9 +76,9 @@ while i < int(sys.argv[2]) and r < len(ranks):
     ## compare
     if compare_snt(snt_a, snt_b, sys.argv[6], sys.argv[7]):
         i += 1
-        sys.stdout.write(snt_a)
-        sys.stdout.write(snt_b)
-        sys.stdout.write()
+        sys.stdout.write(snt_a+" \n")
+        sys.stdout.write(snt_b+" \n")
+        sys.stdout.write("\n")
         
     r += 1
     
