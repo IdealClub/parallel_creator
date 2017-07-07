@@ -33,8 +33,8 @@ def compare_snt(a, b, lan1, lan2):
     a = a.translate(translator).lower()
     b = b.translate(translator).lower()
     
-    a = [w for w in a.split() if w not in stopwords.words(lan1)]
-    b = [w for w in b.split() if w not in stopwords.words(lan2)]
+    a = [w for w in a.split() if w not in stopwords.words()]
+    b = [w for w in b.split() if w not in stopwords.words()]
     
     print(a, b)
     
