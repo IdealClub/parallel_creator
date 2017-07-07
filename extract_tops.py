@@ -18,8 +18,16 @@ with open(sys.argv[1], 'r') as source:
 
 def compare_snt(a, b, lan1, lan2):
     
-    if re.match("\\\\|=", a) or re.match("\\\\|=", b):
-        return False
+    for ch in a:
+        if ch in set(["\\", "="]):
+            return False
+        
+    for ch in b:
+        if ch in set(["\\", "="]):
+            return False
+    
+    #if re.match("\\\\|=", a) or re.match("\\\\|=", b):
+    #    return False
     
     translator = str.maketrans('', '', string.punctuation)
     a = a.translate(translator).lower()
@@ -30,7 +38,7 @@ def compare_snt(a, b, lan1, lan2):
     
     print(a, b)
     
-    if editdistance.eval(a, b) > 0:
+    if editdistance.eval(a, b) > 2:
         return True
     return False
     
