@@ -20,13 +20,16 @@ b_len_dict = dict()
 a_corp_dict = dict()
 b_corp_dict = dict()
 
+
+
 def compare_snt(a, b, lan1, lan2):
     
     if re.match("\\\\|=", a) or re.match("\\\\|=", b):
         return False
     
-    a = a.translate(None, string.punctuation).lower()
-    b = b.translate(None, string.punctuation).lower()
+    translator = str.maketrans('', '', string.punctuation)
+    a = a.translate(translator).lower()
+    b = b.translate(translator).lower()
     
     a = [w for w in a.split() if w not in stopwords.words(lan1)]
     b = [w for w in b.split() if w not in stopwords.words(lan2)]
