@@ -35,3 +35,25 @@
 ## Rerank extracted candidates `rerank/`
 
 1. `python sim_ranker_feas.py <feas>`
+
+## Create adaptation sets `adapt/`
+
+1. `./create_adapt_sets.sh <N> <no. splits> <corpus src> <corpus tgt> <article snt nos> <lang src> <lang tgt>`
+
+## Evaluate after adaptation `eval/`
+
+1. Translate `./run_indomain <model> <device (cpu/gpuX)>` (use `run_general.sh` for non-indomain test sets)
+
+2. Evaluate `./run_test_all.sh <model> <path to Moses eval script> <dir of translations> <output dir of BLEU scores>`
+
+3. Check significance `./significant.sh <model1> <model2>` (use `sign_gen.sh` for non-indomain test sets)
+
+## Finding best translations `oracle/`
+
+1. N-best translations `./nbest.sh <model> <lang src> <lang tgt> <language pair>`
+
+2. Find theoretical best `./oracle.sh <n-best translations> <reference file>`
+
+3. Do reranking & eval `./find_best.sh> <in-domain LM> <n-best translations> <reference file> <general LM> <source>`
+
+
