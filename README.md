@@ -15,7 +15,7 @@
 
 1. `split_extraction.py <corpus src> <corpus tgt> <cvx src> <cvx tgt> <article snt nos> <no. of splits>`
 
-## Compute similarity features `feas/`
+## Compute similarity features for training sets `feas/`
 
 1. Get context vector similarities `python context_similarities.py <cvx src> <cvx tgt> <output>`
 
@@ -25,3 +25,13 @@
 
 1. Train regression model `python train_regression_all_cont.py <cvx similarities> <label scores> <complementary features>`
 
+## Compute features and extract from comparable articles `extract/`
+
+1. Extract sentence pair IDs using a trained model. 
+`python feature_extract_regression.py <corpus src> <corpus tgt> <cvx src> <cvx tgt> <article snt nos> <save_feas (True/False)> <classifier (sv/gb/ens)> <feas ("all"/"set"/"ctx")>`
+
+2. Get sentences corresponding to IDs `python in_domain_extraction.py <corpus src> <corpus tgt> <article snt nos> <matching IDs>` 
+
+## Rerank extracted candidates `rerank/`
+
+1. `python sim_ranker_feas.py <feas>`
