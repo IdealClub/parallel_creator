@@ -1,6 +1,6 @@
 # Parallel Sentence Extraction from Comparable Corpora
 
-## Create pseudo sentence pairs from comparable Wikipedia articles `candidates/`
+## Create corpora from comparable Wikipedia articles `candidates/`
 
 1. Extract parallel articles and their sentence counts for the union: `python extract_union.py <mathced IDs file> <path to article directories>`
 
